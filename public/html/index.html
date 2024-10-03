@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Fantasy Football Simulator</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>NFL Fantasy Football Simulator</h1>
+    </header>
+    <main>
+        <section id="welcome">
+            <h2>Welcome to the Fantasy Football Draft Simulator</h2>
+            <p>Set up your draft preferences below to get started!</p>
+        </section>
+        <section id="draft-settings">
+            <form id="draft-settings-form">
+                <h3>Draft Settings</h3>
+
+                <label for="num-teams">Number of Teams:</label>
+                <select id="num-teams" name="num-teams" required>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                </select>
+
+                <label for="user-pick">Your Draft Position:</label>
+                <select id="user-pick" name="user-pick" required>
+                    <!-- Options will be dynamically populated based on number of teams -->
+                </select>
+
+                <label for="num-rounds">Number of Rounds:</label>
+                <select id="num-rounds" name="num-rounds" required>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                </select>
+
+                <label for="scoring-type">Scoring Type:</label>
+                <select id="scoring-type" name="scoring-type" required>
+                    <option value="ppr">1 Point Per Reception (PPR)</option>
+                    <option value="half-ppr">0.5 Point Per Reception (Half PPR)</option>
+                    <option value="standard">No Points Per Reception (Standard)</option>
+                </select>
+
+                <h4>Starting Positions</h4>
+                <div class="position-settings">
+                    <div class="position-row">
+                        <label>QB: <input type="number" name="qb" min="1" max="2" value="1" required></label>
+                        <label>RB: <input type="number" name="rb" min="1" max="3" value="2" required></label>
+                        <label>WR: <input type="number" name="wr" min="1" max="4" value="2" required></label>
+                        <label>TE: <input type="number" name="te" min="1" max="2" value="1" required></label>
+                    </div>
+                    <div class="position-row">
+                        <label>FLEX: <input type="number" name="flex" min="0" max="2" value="1" required></label>
+                        <label>SUPERFLEX: <input type="number" name="superflex" min="0" max="1" value="0"
+                                required></label>
+                        <label>D/ST: <input type="number" name="dst" min="0" max="1" value="1" required></label>
+                        <label>K: <input type="number" name="k" min="0" max="1" value="1" required></label>
+                    </div>
+                </div>
+
+                <button type="submit">Start Draft</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 NFL Fantasy Football Simulator</p>
+    </footer>
+    <script src="../models/script.js"></script>
+</body>
+
+</html>

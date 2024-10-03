@@ -1,0 +1,324 @@
+{
+    "players": [
+        {
+            "id": 1,
+            "name": "Breece Hall",
+            "position": "RB",
+            "team": "NYJ",
+            "byeWeek": 12,
+            "projectedPoints": {
+                "standard": 281,
+                "ppr": 321,
+                "halfPpr": 300.5
+            },
+            "rank": {
+                "overall": 1,
+                "position": 1
+            }
+        },
+        {
+            "id": 2,
+            "name": "Christian McCaffrey",
+            "position": "RB",
+            "team": "SF",
+            "byeWeek": 9,
+            "projectedPoints": {
+                "standard": 280,
+                "ppr": 320,
+                "halfPpr": 300
+            },
+            "rank": {
+                "overall": 2,
+                "position": 2
+            }
+        },
+        {
+            "id": 3,
+            "name": "Saquon Barkley",
+            "position": "RB",
+            "team": "PHI",
+            "byeWeek": 12,
+            "projectedPoints": {
+                "standard": 279,
+                "ppr": 300,
+                "halfPpr": 280
+            },
+            "rank": {
+                "overall": 3,
+                "position": 3
+            }
+        },
+        {
+            "id": 4,
+            "name": "Justin Jefferson",
+            "position": "WR",
+            "team": "MIN",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 278,
+                "ppr": 318,
+                "halfPpr": 298
+            },
+            "rank": {
+                "overall": 4,
+                "position": 1
+            }
+        },
+        {
+            "id": 5,
+            "name": "Tyreek Hill",
+            "position": "WR",
+            "team": "MIA",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 277,
+                "ppr": 317,
+                "halfPpr": 297
+            },
+            "rank": {
+                "overall": 5,
+                "position": 2
+            }
+        },
+        {
+            "id": 6,
+            "name": "Ja'Marr Chase",
+            "position": "WR",
+            "team": "CIN",
+            "byeWeek": 7,
+            "projectedPoints": {
+                "standard": 276,
+                "ppr": 316,
+                "halfPpr": 296
+            },
+            "rank": {
+                "overall": 6,
+                "position": 2
+            }
+        },
+        {
+            "id": 7,
+            "name": "Cooper Kupp",
+            "position": "WR",
+            "team": "LAR",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 275,
+                "ppr": 315,
+                "halfPpr": 295
+            },
+            "rank": {
+                "overall": 7,
+                "position": 3
+            }
+        },
+        {
+            "id": 8,
+            "name": "Travis Kelce",
+            "position": "TE",
+            "team": "KC",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 274,
+                "ppr": 314,
+                "halfPpr": 294
+            },
+            "rank": {
+                "overall": 8,
+                "position": 1
+            }
+        },
+        {
+            "id": 9,
+            "name": "Josh Allen",
+            "position": "QB",
+            "team": "BUF",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 373,
+                "ppr": 373,
+                "halfPpr": 373
+            },
+            "rank": {
+                "overall": 9,
+                "position": 1
+            }
+        },
+        {
+            "id": 10,
+            "name": "Tyreek Hill",
+            "position": "WR",
+            "team": "MIA",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 272,
+                "ppr": 312,
+                "halfPpr": 292
+            },
+            "rank": {
+                "overall": 10,
+                "position": 4
+            }
+        },
+        {
+            "id": 1,
+            "name": "Breece Hall",
+            "position": "RB",
+            "team": "NYJ",
+            "byeWeek": 12,
+            "projectedPoints": {
+                "standard": 281,
+                "ppr": 321,
+                "halfPpr": 300.5
+            },
+            "rank": {
+                "overall": 1,
+                "position": 1
+            }
+        },
+        {
+            "id": 2,
+            "name": "Christian McCaffrey",
+            "position": "RB",
+            "team": "SF",
+            "byeWeek": 9,
+            "projectedPoints": {
+                "standard": 280,
+                "ppr": 320,
+                "halfPpr": 300
+            },
+            "rank": {
+                "overall": 2,
+                "position": 2
+            }
+        },
+        {
+            "id": 3,
+            "name": "Saquon Barkley",
+            "position": "RB",
+            "team": "PHI",
+            "byeWeek": 12,
+            "projectedPoints": {
+                "standard": 279,
+                "ppr": 300,
+                "halfPpr": 280
+            },
+            "rank": {
+                "overall": 3,
+                "position": 3
+            }
+        },
+        {
+            "id": 4,
+            "name": "Justin Jefferson",
+            "position": "WR",
+            "team": "MIN",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 278,
+                "ppr": 318,
+                "halfPpr": 298
+            },
+            "rank": {
+                "overall": 4,
+                "position": 1
+            }
+        },
+        {
+            "id": 5,
+            "name": "Austin Ekeler",
+            "position": "RB",
+            "team": "LAC",
+            "byeWeek": 5,
+            "projectedPoints": {
+                "standard": 277,
+                "ppr": 317,
+                "halfPpr": 297
+            },
+            "rank": {
+                "overall": 5,
+                "position": 4
+            }
+        },
+        {
+            "id": 6,
+            "name": "Ja'Marr Chase",
+            "position": "WR",
+            "team": "CIN",
+            "byeWeek": 7,
+            "projectedPoints": {
+                "standard": 276,
+                "ppr": 316,
+                "halfPpr": 296
+            },
+            "rank": {
+                "overall": 6,
+                "position": 2
+            }
+        },
+        {
+            "id": 7,
+            "name": "Cooper Kupp",
+            "position": "WR",
+            "team": "LAR",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 275,
+                "ppr": 315,
+                "halfPpr": 295
+            },
+            "rank": {
+                "overall": 7,
+                "position": 3
+            }
+        },
+        {
+            "id": 8,
+            "name": "Travis Kelce",
+            "position": "TE",
+            "team": "KC",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 274,
+                "ppr": 314,
+                "halfPpr": 294
+            },
+            "rank": {
+                "overall": 8,
+                "position": 1
+            }
+        },
+        {
+            "id": 9,
+            "name": "Josh Allen",
+            "position": "QB",
+            "team": "BUF",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 373,
+                "ppr": 373,
+                "halfPpr": 373
+            },
+            "rank": {
+                "overall": 9,
+                "position": 1
+            }
+        },
+        {
+            "id": 10,
+            "name": "Tyreek Hill",
+            "position": "WR",
+            "team": "MIA",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 272,
+                "ppr": 312,
+                "halfPpr": 292
+            },
+            "rank": {
+                "overall": 10,
+                "position": 4
+            }
+        }
+    ]
+}

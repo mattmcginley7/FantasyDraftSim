@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Fantasy Football Draft</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>NFL Fantasy Football Draft</h1>
+    </header>
+    <main>
+        <section id="draft-board">
+            <h2>Draft Board</h2>
+            <div id="draft-order"></div>
+        </section>
+        <section id="player-rankings">
+            <h2>Player Rankings</h2>
+            <select id="position-filter">
+                <option value="ALL">All Positions</option>
+                <option value="QB">Quarterbacks</option>
+                <option value="RB">Running Backs</option>
+                <option value="WR">Wide Receivers</option>
+                <option value="TE">Tight Ends</option>
+                <option value="K">Kickers</option>
+                <option value="DST">Defense/Special Teams</option>
+            </select>
+            <ul id="player-list"></ul>
+        </section>
+        <section id="team-rosters">
+            <h2>Team Rosters</h2>
+            <div id="roster-list"></div>
+        </section>
+    </main>
+    <script src="../js/draft.js"></script>
+</body>
+
+</html>
