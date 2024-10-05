@@ -143,3 +143,87 @@ button:hover {
     padding: 10px;
     border: 1px solid #ddd;
 }
+
+.player-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.player-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+}
+
+.player-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.player-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-position {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.QB {
+    color: #FFA500;
+    /* Orange for QBs */
+}
+
+.RB {
+    color: #008000;
+    /* Green for RBs */
+}
+
+.WR {
+    color: #1E90FF;
+    /* Blue for WRs */
+}
+
+.TE {
+    color: #800080;
+    /* Purple for TEs */
+}
+
+.DST {
+    color: #A9A9A9;
+    /* Gray for Defense */
+}
+
+.K {
+    color: #FFD700;
+    /* Gold for Kickers */
+}
+
+.draft-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.draft-button:hover {
+    background-color: #0056b3;
+}

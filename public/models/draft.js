@@ -62,10 +62,25 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayPlayers(filteredPlayers = players) {
         playerList.innerHTML = '';
         filteredPlayers.forEach(player => {
-            const li = document.createElement('li');
-            li.textContent = `${player.name} (${player.position}) - ${player.team}`;
-            li.addEventListener('click', () => draftPlayer(player));
-            playerList.appendChild(li);
+            const playerCard = document.createElement('div');
+            playerCard.classList.add('player-card');
+
+            // Use player name for the image file
+            const playerImageName = player.name.replace(/\s+/g, '-') + '.png';
+
+            playerCard.innerHTML = `
+            <div class="player-info">
+                <img src="../images/${playerImageName}" alt="${player.name}" class="player-image">
+                <div class="player-details">
+                    <h4>${player.name}</h4>
+                    <p class="player-position ${player.position}">${player.position} | ${player.team} | Bye ${player.byeWeek}</p>
+                </div>
+            </div>
+            <button class="draft-button">Draft</button>
+        `;
+
+            playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));
+            playerList.appendChild(playerCard);
         });
     }
 
