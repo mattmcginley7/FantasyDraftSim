@@ -2847,6 +2847,390 @@
                 "overall": 175,
                 "position": 12
             }
+        },
+        {
+            "id": 180,
+            "name": "Jalen Tolbert",
+            "position": "WR",
+            "team": "DAL",
+            "byeWeek": 7,
+            "projectedPoints": {
+                "standard": 170,
+                "ppr": 210,
+                "halfPpr": 190
+            },
+            "rank": {
+                "overall": 176,
+                "position": 70
+            }
+        },
+        {
+            "id": 181,
+            "name": "Jake Ferguson",
+            "position": "TE",
+            "team": "DAL",
+            "byeWeek": 7,
+            "projectedPoints": {
+                "standard": 160,
+                "ppr": 200,
+                "halfPpr": 180
+            },
+            "rank": {
+                "overall": 177,
+                "position": 16
+            }
+        },
+        {
+            "id": 182,
+            "name": "Jalen McMillan",
+            "position": "WR",
+            "team": "WAS",
+            "byeWeek": 8,
+            "projectedPoints": {
+                "standard": 180,
+                "ppr": 220,
+                "halfPpr": 200
+            },
+            "rank": {
+                "overall": 178,
+                "position": 71
+            }
+        },
+        {
+            "id": 183,
+            "name": "Hunter Henry",
+            "position": "TE",
+            "team": "NE",
+            "byeWeek": 11,
+            "projectedPoints": {
+                "standard": 170,
+                "ppr": 210,
+                "halfPpr": 190
+            },
+            "rank": {
+                "overall": 179,
+                "position": 17
+            }
+        },
+        {
+            "id": 184,
+            "name": "Isaiah Likely",
+            "position": "TE",
+            "team": "BAL",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 160,
+                "ppr": 200,
+                "halfPpr": 180
+            },
+            "rank": {
+                "overall": 180,
+                "position": 18
+            }
+        },
+        {
+            "id": 185,
+            "name": "Ja'Lynn Polk",
+            "position": "WR",
+            "team": "WAS",
+            "byeWeek": 8,
+            "projectedPoints": {
+                "standard": 175,
+                "ppr": 215,
+                "halfPpr": 195
+            },
+            "rank": {
+                "overall": 181,
+                "position": 72
+            }
+        },
+        {
+            "id": 186,
+            "name": "Greg Dortch",
+            "position": "WR",
+            "team": "ARI",
+            "byeWeek": 14,
+            "projectedPoints": {
+                "standard": 160,
+                "ppr": 200,
+                "halfPpr": 180
+            },
+            "rank": {
+                "overall": 182,
+                "position": 73
+            }
+        },
+        {
+            "id": 187,
+            "name": "Jaleel McLaughlin",
+            "position": "RB",
+            "team": "DEN",
+            "byeWeek": 9,
+            "projectedPoints": {
+                "standard": 170,
+                "ppr": 190,
+                "halfPpr": 180
+            },
+            "rank": {
+                "overall": 183,
+                "position": 57
+            }
+        },
+        {
+            "id": 188,
+            "name": "Gus Edwards",
+            "position": "RB",
+            "team": "BAL",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 180,
+                "ppr": 200,
+                "halfPpr": 190
+            },
+            "rank": {
+                "overall": 184,
+                "position": 58
+            }
+        },
+        {
+            "id": 189,
+            "name": "Jameis Winston",
+            "position": "QB",
+            "team": "NO",
+            "byeWeek": 11,
+            "projectedPoints": {
+                "standard": 250,
+                "ppr": 250,
+                "halfPpr": 250
+            },
+            "rank": {
+                "overall": 185,
+                "position": 22
+            }
+        },
+        {
+            "id": 190,
+            "name": "Jalen Nailor",
+            "position": "WR",
+            "team": "MIN",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 160,
+                "ppr": 200,
+                "halfPpr": 180
+            },
+            "rank": {
+                "overall": 186,
+                "position": 74
+            }
+        },
+        {
+            "id": 191,
+            "name": "Foster Moreau",
+            "position": "TE",
+            "team": "NO",
+            "byeWeek": 11,
+            "projectedPoints": {
+                "standard": 150,
+                "ppr": 190,
+                "halfPpr": 170
+            },
+            "rank": {
+                "overall": 187,
+                "position": 19
+            }
+        },
+        {
+            "id": 192,
+            "name": "Gardner Minshew",
+            "position": "QB",
+            "team": "IND",
+            "byeWeek": 11,
+            "projectedPoints": {
+                "standard": 240,
+                "ppr": 240,
+                "halfPpr": 240
+            },
+            "rank": {
+                "overall": 188,
+                "position": 23
+            }
+        },
+        {
+            "id": 193,
+            "name": "Jake Bates",
+            "position": "K",
+            "team": "FA",
+            "byeWeek": null,
+            "projectedPoints": {
+                "standard": 90,
+                "ppr": 90,
+                "halfPpr": 90
+            },
+            "rank": {
+                "overall": 189,
+                "position": 13
+            }
+        },
+        {
+            "id": 194,
+            "name": "Harrison Butker",
+            "position": "K",
+            "team": "KC",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 120,
+                "ppr": 120,
+                "halfPpr": 120
+            },
+            "rank": {
+                "overall": 190,
+                "position": 14
+            }
+        },
+        {
+            "id": 195,
+            "name": "Greg Dulcich",
+            "position": "TE",
+            "team": "DEN",
+            "byeWeek": 9,
+            "projectedPoints": {
+                "standard": 160,
+                "ppr": 200,
+                "halfPpr": 180
+            },
+            "rank": {
+                "overall": 191,
+                "position": 20
+            }
+        },
+        {
+            "id": 196,
+            "name": "Jahan Dotson",
+            "position": "WR",
+            "team": "WAS",
+            "byeWeek": 14,
+            "projectedPoints": {
+                "standard": 190,
+                "ppr": 230,
+                "halfPpr": 210
+            },
+            "rank": {
+                "overall": 192,
+                "position": 75
+            }
+        },
+        {
+            "id": 197,
+            "name": "Grant Calcaterra",
+            "position": "TE",
+            "team": "PHI",
+            "byeWeek": 10,
+            "projectedPoints": {
+                "standard": 150,
+                "ppr": 190,
+                "halfPpr": 170
+            },
+            "rank": {
+                "overall": 193,
+                "position": 21
+            }
+        },
+        {
+            "id": 198,
+            "name": "Hayden Hurst",
+            "position": "TE",
+            "team": "CAR",
+            "byeWeek": 7,
+            "projectedPoints": {
+                "standard": 170,
+                "ppr": 210,
+                "halfPpr": 190
+            },
+            "rank": {
+                "overall": 194,
+                "position": 22
+            }
+        },
+        {
+            "id": 199,
+            "name": "Ja'Tavion Sanders",
+            "position": "TE",
+            "team": "TEX",
+            "byeWeek": 8,
+            "projectedPoints": {
+                "standard": 150,
+                "ppr": 190,
+                "halfPpr": 170
+            },
+            "rank": {
+                "overall": 195,
+                "position": 23
+            }
+        },
+        {
+            "id": 200,
+            "name": "Greg Joseph",
+            "position": "K",
+            "team": "MIN",
+            "byeWeek": 13,
+            "projectedPoints": {
+                "standard": 110,
+                "ppr": 110,
+                "halfPpr": 110
+            },
+            "rank": {
+                "overall": 196,
+                "position": 15
+            }
+        },
+        {
+            "id": 201,
+            "name": "Greg Zuerlein",
+            "position": "K",
+            "team": "NYJ",
+            "byeWeek": 7,
+            "projectedPoints": {
+                "standard": 115,
+                "ppr": 115,
+                "halfPpr": 115
+            },
+            "rank": {
+                "overall": 197,
+                "position": 16
+            }
+        },
+        {
+            "id": 202,
+            "name": "Jake Moody",
+            "position": "K",
+            "team": "SF",
+            "byeWeek": 9,
+            "projectedPoints": {
+                "standard": 120,
+                "ppr": 120,
+                "halfPpr": 120
+            },
+            "rank": {
+                "overall": 198,
+                "position": 17
+            }
+        },
+        {
+            "id": 203,
+            "name": "Jacoby Brissett",
+            "position": "QB",
+            "team": "WAS",
+            "byeWeek": 14,
+            "projectedPoints": {
+                "standard": 240,
+                "ppr": 240,
+                "halfPpr": 240
+            },
+            "rank": {
+                "overall": 199,
+                "position": 24
+            }
         }
     ]
 }
