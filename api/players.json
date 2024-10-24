@@ -3855,6 +3855,342 @@
                         "overall": 238,
                         "position": 31
                     }
+                },
+                {
+                    "id": 243,
+                    "name": "Tua Tagovailoa",
+                    "position": "QB",
+                    "team": "MIA",
+                    "byeWeek": 10,
+                    "projectedPoints": {
+                        "standard": 290,
+                        "ppr": 290,
+                        "halfPpr": 290
+                    },
+                    "rank": {
+                        "overall": 239,
+                        "position": 28
+                    }
+                },
+                {
+                    "id": 244,
+                    "name": "Tutu Atwell",
+                    "position": "WR",
+                    "team": "LAR",
+                    "byeWeek": 10,
+                    "projectedPoints": {
+                        "standard": 140,
+                        "ppr": 180,
+                        "halfPpr": 160
+                    },
+                    "rank": {
+                        "overall": 240,
+                        "position": 91
+                    }
+                },
+                {
+                    "id": 245,
+                    "name": "Tre Tucker",
+                    "position": "WR",
+                    "team": "LV",
+                    "byeWeek": 13,
+                    "projectedPoints": {
+                        "standard": 130,
+                        "ppr": 170,
+                        "halfPpr": 150
+                    },
+                    "rank": {
+                        "overall": 241,
+                        "position": 92
+                    }
+                },
+                {
+                    "id": 246,
+                    "name": "Trey Sermon",
+                    "position": "RB",
+                    "team": "PHI",
+                    "byeWeek": 10,
+                    "projectedPoints": {
+                        "standard": 150,
+                        "ppr": 170,
+                        "halfPpr": 160
+                    },
+                    "rank": {
+                        "overall": 242,
+                        "position": 64
+                    }
+                },
+                {
+                    "id": 247,
+                    "name": "Trey Palmer",
+                    "position": "WR",
+                    "team": "TB",
+                    "byeWeek": 5,
+                    "projectedPoints": {
+                        "standard": 135,
+                        "ppr": 175,
+                        "halfPpr": 155
+                    },
+                    "rank": {
+                        "overall": 243,
+                        "position": 93
+                    }
+                },
+                {
+                    "id": 248,
+                    "name": "Tyler Conklin",
+                    "position": "TE",
+                    "team": "NYJ",
+                    "byeWeek": 7,
+                    "projectedPoints": {
+                        "standard": 140,
+                        "ppr": 180,
+                        "halfPpr": 160
+                    },
+                    "rank": {
+                        "overall": 244,
+                        "position": 32
+                    }
+                },
+                {
+                    "id": 249,
+                    "name": "Sean Tucker",
+                    "position": "RB",
+                    "team": "TB",
+                    "byeWeek": 5,
+                    "projectedPoints": {
+                        "standard": 145,
+                        "ppr": 165,
+                        "halfPpr": 155
+                    },
+                    "rank": {
+                        "overall": 245,
+                        "position": 65
+                    }
+                },
+                {
+                    "id": 250,
+                    "name": "Ray-Ray McCloud",
+                    "position": "WR",
+                    "team": "SF",
+                    "byeWeek": 9,
+                    "projectedPoints": {
+                        "standard": 130,
+                        "ppr": 170,
+                        "halfPpr": 150
+                    },
+                    "rank": {
+                        "overall": 246,
+                        "position": 94
+                    }
+                },
+                {
+                    "id": 251,
+                    "name": "Ricky Pearsall",
+                    "position": "WR",
+                    "team": "FLA",
+                    "byeWeek": 8,
+                    "projectedPoints": {
+                        "standard": 125,
+                        "ppr": 165,
+                        "halfPpr": 145
+                    },
+                    "rank": {
+                        "overall": 247,
+                        "position": 95
+                    }
+                },
+                {
+                    "id": 252,
+                    "name": "Van Jefferson",
+                    "position": "WR",
+                    "team": "LAR",
+                    "byeWeek": 10,
+                    "projectedPoints": {
+                        "standard": 150,
+                        "ppr": 190,
+                        "halfPpr": 170
+                    },
+                    "rank": {
+                        "overall": 248,
+                        "position": 96
+                    }
+                },
+                {
+                    "id": 253,
+                    "name": "Roman Wilson",
+                    "position": "WR",
+                    "team": "MICH",
+                    "byeWeek": 9,
+                    "projectedPoints": {
+                        "standard": 140,
+                        "ppr": 180,
+                        "halfPpr": 160
+                    },
+                    "rank": {
+                        "overall": 249,
+                        "position": 97
+                    }
+                },
+                {
+                    "id": 254,
+                    "name": "Sterling Shepard",
+                    "position": "WR",
+                    "team": "NYG",
+                    "byeWeek": 13,
+                    "projectedPoints": {
+                        "standard": 135,
+                        "ppr": 175,
+                        "halfPpr": 155
+                    },
+                    "rank": {
+                        "overall": 250,
+                        "position": 98
+                    }
+                },
+                {
+                    "id": 255,
+                    "name": "Troy Franklin",
+                    "position": "WR",
+                    "team": "ORE",
+                    "byeWeek": 8,
+                    "projectedPoints": {
+                        "standard": 150,
+                        "ppr": 190,
+                        "halfPpr": 170
+                    },
+                    "rank": {
+                        "overall": 251,
+                        "position": 99
+                    }
+                },
+                {
+                    "id": 256,
+                    "name": "Younghoe Koo",
+                    "position": "K",
+                    "team": "ATL",
+                    "byeWeek": 11,
+                    "projectedPoints": {
+                        "standard": 120,
+                        "ppr": 120,
+                        "halfPpr": 120
+                    },
+                    "rank": {
+                        "overall": 252,
+                        "position": 26
+                    }
+                },
+                {
+                    "id": 257,
+                    "name": "Zach Ertz",
+                    "position": "TE",
+                    "team": "ARI",
+                    "byeWeek": 14,
+                    "projectedPoints": {
+                        "standard": 160,
+                        "ppr": 200,
+                        "halfPpr": 180
+                    },
+                    "rank": {
+                        "overall": 253,
+                        "position": 33
+                    }
+                },
+                {
+                    "id": 258,
+                    "name": "Treylon Burks",
+                    "position": "WR",
+                    "team": "TEN",
+                    "byeWeek": 7,
+                    "projectedPoints": {
+                        "standard": 150,
+                        "ppr": 190,
+                        "halfPpr": 170
+                    },
+                    "rank": {
+                        "overall": 254,
+                        "position": 100
+                    }
+                },
+                {
+                    "id": 259,
+                    "name": "Spencer Rattler",
+                    "position": "QB",
+                    "team": "SCAR",
+                    "byeWeek": 9,
+                    "projectedPoints": {
+                        "standard": 250,
+                        "ppr": 250,
+                        "halfPpr": 250
+                    },
+                    "rank": {
+                        "overall": 255,
+                        "position": 29
+                    }
+                },
+                {
+                    "id": 260,
+                    "name": "Taysom Hill",
+                    "position": "TE",
+                    "team": "NO",
+                    "byeWeek": 11,
+                    "projectedPoints": {
+                        "standard": 170,
+                        "ppr": 210,
+                        "halfPpr": 190
+                    },
+                    "rank": {
+                        "overall": 256,
+                        "position": 34
+                    }
+                },
+                {
+                    "id": 261,
+                    "name": "Theo Johnson",
+                    "position": "TE",
+                    "team": "PSU",
+                    "byeWeek": 7,
+                    "projectedPoints": {
+                        "standard": 140,
+                        "ppr": 180,
+                        "halfPpr": 160
+                    },
+                    "rank": {
+                        "overall": 257,
+                        "position": 35
+                    }
+                },
+                {
+                    "id": 262,
+                    "name": "Tommy Tremble",
+                    "position": "TE",
+                    "team": "CAR",
+                    "byeWeek": 7,
+                    "projectedPoints": {
+                        "standard": 130,
+                        "ppr": 170,
+                        "halfPpr": 150
+                    },
+                    "rank": {
+                        "overall": 258,
+                        "position": 36
+                    }
+                },
+                {
+                    "id": 263,
+                    "name": "Tyler Bass",
+                    "position": "K",
+                    "team": "BUF",
+                    "byeWeek": 13,
+                    "projectedPoints": {
+                        "standard": 125,
+                        "ppr": 125,
+                        "halfPpr": 125
+                    },
+                    "rank": {
+                        "overall": 259,
+                        "position": 27
+                    }
                 }
     ]
 }
