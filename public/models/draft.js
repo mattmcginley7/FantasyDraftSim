@@ -48,15 +48,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch players from JSON file
     async function fetchPlayers() {
         try {
-            const response = await fetch('/api/players');  // Fetch from your Node.js API
+            const response = await fetch('/api/players');
             const data = await response.json();
+            console.log(data); // Log to ensure the data is correct
             players = data.players;
             displayPlayers();
         } catch (error) {
             console.error('Error fetching players:', error);
         }
     }
-
 
     // Display players
     function displayPlayers(filteredPlayers = players) {
@@ -69,15 +69,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const playerImageName = player.name.replace(/\s+/g, '-') + '.png';
 
             playerCard.innerHTML = `
-            <div class="player-info">
-                <img src="../images/${playerImageName}" alt="${player.name}" class="player-image">
-                <div class="player-details">
-                    <h4>${player.name}</h4>
-                    <p class="player-position ${player.position}">${player.position} | ${player.team} | Bye ${player.byeWeek}</p>
-                </div>
+        <div class="player-info">
+            <img src="../images/${playerImageName}" alt="${player.name}" class="player-image">
+            <div class="player-details">
+                <h4>${player.name}</h4>
+                <p class="player-position ${player.position}">${player.position} | ${player.team} | Bye ${player.byeWeek}</p>
+                <p>Projected Points: ${player.projectedPoints.ppr} (PPR)</p>
             </div>
-            <button class="draft-button">Draft</button>
-        `;
+        </div>
+        <button class="draft-button">Draft</button>
+    `;
 
             playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));
             playerList.appendChild(playerCard);
@@ -98,14 +99,23 @@ document.addEventListener('DOMContentLoaded', function () {
         players = players.filter(p => p.id !== player.id);
 
         // Mark player as drafted
-        const draftedPlayerElement = document.querySelector(`#player-list li:contains(${player.name})`);
-        if (draftedPlayerElement) {
-            draftedPlayerElement.classList.add('drafted');
-        }
+        displayPlayers();
+        displayRosters();
 
+        // Automatically draft players for other teams
+        for (let i = 1; i < teams.length; i++) {
+            autoDraft(teams[i]);
+        }
+    }
+
+    function autoDraft(team) {
+        if (players.length === 0) return; // Stop if no players left
+        const bestPlayer = players.shift(); // Pick the highest-ranked player
+        team.roster.push(bestPlayer);
         displayPlayers();
         displayRosters();
     }
+
 
 
     // Display team rosters
