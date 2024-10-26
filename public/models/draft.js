@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch players from JSON file
     async function fetchPlayers() {
         try {
-            const response = await fetch('/api/players');
+            const response = await fetch('http://localhost:3000/api/players');  // Full URL to the server
             const data = await response.json();
             console.log(data); // Log to ensure the data is correct
             players = data.players;
@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching players:', error);
         }
     }
+
 
     // Display players
     function displayPlayers(filteredPlayers = players) {
