@@ -152,31 +152,37 @@ button:hover {
 
 .player-card {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     background-color: #fff;
     border-radius: 8px;
-    padding: 10px;
+    padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 350px;
+    margin-bottom: 20px;
+    /* Space between cards */
 }
 
 .player-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.player-image {
-    width: 50px;
-    height: 50px;
+.player-image-large {
+    width: 120px;
+    /* Increase the size for better visibility */
+    height: 120px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .player-details {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .player-position {
@@ -214,6 +220,11 @@ button:hover {
     /* Gold for Kickers */
 }
 
+.draft-button-container {
+    margin-top: 15px;
+    width: 100%;
+}
+
 .draft-button {
     padding: 10px 20px;
     background-color: #007BFF;
@@ -222,6 +233,8 @@ button:hover {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
 }
 
 .draft-button:hover {

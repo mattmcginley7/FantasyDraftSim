@@ -71,20 +71,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
             playerCard.innerHTML = `
         <div class="player-info">
-            <img src="../images/${playerImageName}" alt="${player.name}" class="player-image">
+            <img src="../images/${playerImageName}" alt="${player.name}" class="player-image-large">
             <div class="player-details">
                 <h4>${player.name}</h4>
                 <p class="player-position ${player.position}">${player.position} | ${player.team} | Bye ${player.byeWeek}</p>
                 <p>Projected Points: ${player.projectedPoints.ppr} (PPR)</p>
             </div>
         </div>
-        <button class="draft-button">Draft</button>
+        <div class="draft-button-container">
+            <button class="draft-button">Draft</button>
+        </div>
     `;
 
             playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));
             playerList.appendChild(playerCard);
         });
     }
+
 
     // Filter players by position
     function filterPlayers() {
