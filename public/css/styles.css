@@ -156,25 +156,33 @@ button:hover {
     align-items: center;
     background-color: #fff;
     border-radius: 8px;
-    padding: 20px;
+    padding: 15px;
+    /* Reduced padding */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 350px;
-    margin-bottom: 20px;
-    /* Space between cards */
+    max-width: 300px;
+    /* Reduce max width to make it more compact */
+    margin-bottom: 15px;
+    /* Less space between cards */
 }
 
 .player-info {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    gap: 10px;
+    /* Adding gap for better spacing */
 }
 
 .player-image-large {
-    width: 120px;
-    /* Increase the size for better visibility */
-    height: 120px;
+    width: 100px;
+    /* Set consistent width */
+    height: auto;
+    /* Let the height adjust automatically to maintain aspect ratio */
     border-radius: 50%;
+    object-fit: cover;
+    /* Ensure the image fills the circle without stretching */
     margin-bottom: 10px;
 }
 
@@ -183,6 +191,8 @@ button:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 5px;
+    /* More compact spacing between details */
 }
 
 .player-position {
@@ -221,12 +231,13 @@ button:hover {
 }
 
 .draft-button-container {
-    margin-top: 15px;
+    margin-top: 10px;
     width: 100%;
 }
 
 .draft-button {
-    padding: 10px 20px;
+    padding: 8px 15px;
+    /* Reduced padding for a more compact button */
     background-color: #007BFF;
     color: #fff;
     border: none;
