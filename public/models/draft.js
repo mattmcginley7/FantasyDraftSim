@@ -81,36 +81,35 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch('http://localhost:3000/api/players');
             const data = await response.json();
             players = data.players;
-            players.sort((a, b) => b.projectedPoints.ppr - a.projectedPoints.ppr); // Sort players by projected points
+            players.sort((a, b) => a.id - b.id); // Sort players by id
             displayPlayers();
         } catch (error) {
             console.error('Error fetching players:', error);
         }
     }
 
-    // Display players available for drafting
+
+    // Display players in individual rows
     function displayPlayers(filteredPlayers = players) {
-        playerList.innerHTML = ''; // Clear player list before adding new players
-        filteredPlayers.forEach((player, index) => {
+        playerList.innerHTML = ''; // Clear player list
+        filteredPlayers.forEach(player => {
             const playerCard = document.createElement('div');
             playerCard.classList.add('player-card', 'player-row');
 
-            const playerImageName = player.name.replace(/\s+/g, '-') + '.png';
-
             playerCard.innerHTML = `
-                <div class="player-rank">${index + 1}.</div>
-                <div class="player-info">
-                    <img src="../images/${playerImageName}" alt="${player.name}" class="player-image-small">
-                    <div class="player-details">
-                        <span class="player-name">${player.name}</span>
-                        <span class="player-position-team">${player.position} | ${player.team}</span>
-                    </div>
+            <div class="player-rank">${player.id}.</div>
+            <div class="player-info">
+                <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-small">
+                <div class="player-details">
+                    <span class="player-name">${player.name}</span>
+                    <span class="player-position-team">${player.position} | ${player.team}</span>
                 </div>
-                <div class="player-points">${player.projectedPoints.ppr} PPR</div>
-                <div class="draft-button-container">
-                    <button class="draft-button">Draft</button>
-                </div>
-            `;
+            </div>
+            <div class="player-points">${player.projectedPoints.ppr} PPR</div>
+            <div class="draft-button-container">
+                <button class="draft-button">Draft</button>
+            </div>
+        `;
 
             playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));
             playerList.appendChild(playerCard);
