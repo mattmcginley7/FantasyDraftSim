@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // Display players in individual rows
     function displayPlayers(filteredPlayers = players) {
         playerList.innerHTML = ''; // Clear player list
         filteredPlayers.forEach(player => {
@@ -98,17 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             playerCard.innerHTML = `
             <div class="player-rank">${player.id}.</div>
+            <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-large">
             <div class="player-info">
-                <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-small">
-                <div class="player-details">
-                    <span class="player-name">${player.name}</span>
-                    <span class="player-position-team">${player.position} | ${player.team}</span>
-                </div>
+                <span class="player-name">${player.name}</span>
+                <span class="player-position-team">${player.position} | ${player.team}</span>
+                <span class="player-points">${player.projectedPoints.ppr} PPR</span>
             </div>
-            <div class="player-points">${player.projectedPoints.ppr} PPR</div>
-            <div class="draft-button-container">
-                <button class="draft-button">Draft</button>
-            </div>
+            <button class="draft-button">Draft</button>
         `;
 
             playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));

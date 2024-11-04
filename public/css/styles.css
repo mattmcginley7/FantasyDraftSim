@@ -113,8 +113,8 @@ button:hover {
 }
 
 #player-list {
-    list-style-type: none;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 #player-list li {
@@ -147,17 +147,19 @@ button:hover {
 #player-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .player-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+    gap: 10px;
+}
+
+.player-card:last-child {
+    border-bottom: none;
+    /* Remove border from the last item */
 }
 
 .player-row {
@@ -174,27 +176,24 @@ button:hover {
 .player-rank {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-right: 15px;
+    width: 30px;
+    text-align: center;
 }
 
 .player-info {
+    flex: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    gap: 10px;
-    /* Adding gap for better spacing */
+    gap: 20px;
+    /* Space out name, position/team, and points */
 }
 
 .player-image-large {
-    width: 100px;
-    /* Set consistent width */
-    height: auto;
-    /* Let the height adjust automatically to maintain aspect ratio */
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    /* Ensure the image fills the circle without stretching */
-    margin-bottom: 10px;
+    margin-right: 15px;
 }
 
 .player-image-small {
@@ -214,15 +213,10 @@ button:hover {
     font-size: 1rem;
 }
 
-.player-position-team {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* Player Points Section */
+.player-position-team,
 .player-points {
-    font-size: 1rem;
-    margin-right: 20px;
+    font-size: 0.85rem;
+    color: #666;
 }
 
 .player-position {
@@ -265,12 +259,16 @@ button:hover {
 }
 
 .draft-button {
-    background-color: #007bff;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    background-color: #333;
     color: #fff;
     border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+    /* Smaller width and taller height */
+    width: auto;
+    height: 40px;
 }
 
 .draft-button:hover {
