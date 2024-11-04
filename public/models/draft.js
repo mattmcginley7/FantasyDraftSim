@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Retrieve draft settings from localStorage
     const draftSettings = JSON.parse(localStorage.getItem('draftSettings'));
+    if (!draftSettings) {
+        console.error('Draft settings not found');
+        return; // Exit if draft settings are not available
+    }
+
+    console.log('Draft settings loaded:', draftSettings);
+
+    // Elements references from draft.html
     const draftOrder = document.getElementById('draft-order');
     const playerList = document.getElementById('player-list');
     const rosterList = document.getElementById('roster-list');
@@ -7,13 +16,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let players = [];
     let teams = [];
+    let currentPickIndex = 0;
 
-    // Initialize draft
+    initializeDraft();
+
     function initializeDraft() {
-        // Create teams
+        // Create teams based on the number of teams in the settings
+        teams = [];
         for (let i = 1; i <= draftSettings.num_teams; i++) {
             teams.push({ name: `Team ${i}`, roster: [] });
         }
+
+        console.log('Teams initialized:', teams);
 
         // Display draft order
         displayDraftOrder();
@@ -21,116 +35,153 @@ document.addEventListener('DOMContentLoaded', function () {
         // Fetch players
         fetchPlayers();
 
-        // Set up event listeners
-        positionFilter.addEventListener('change', filterPlayers);
-    }
-
-    // Display draft order
-    function displayDraftOrder() {
-        draftOrder.innerHTML = '';
-        for (let i = 0; i < draftSettings.num_rounds; i++) {
-            const round = document.createElement('div');
-            round.classList.add('draft-round');
-            round.innerHTML = `<h3>Round ${i + 1}</h3>`;
-            const picks = document.createElement('ol');
-            for (let j = 0; j < teams.length; j++) {
-                const pick = document.createElement('li');
-                // Alternate draft order each round
-                pick.textContent = teams[i % 2 === 0 ? j : teams.length - 1 - j].name;
-                picks.appendChild(pick);
-            }
-            round.appendChild(picks);
-            draftOrder.appendChild(round);
+        // Set up event listener for filtering players by position
+        if (positionFilter) {
+            positionFilter.addEventListener('change', filterPlayers);
         }
     }
 
+    // Display draft order in a board format
+    function displayDraftOrder() {
+        draftOrder.innerHTML = ''; // Clear any existing draft order
+        const draftBoard = document.createElement('div');
+        draftBoard.classList.add('draft-board');
+
+        // Create header row with team names
+        const headerRow = document.createElement('div');
+        headerRow.classList.add('draft-row');
+        teams.forEach(team => {
+            const teamHeader = document.createElement('div');
+            teamHeader.classList.add('draft-cell', 'team-header');
+            teamHeader.textContent = team.name;
+            headerRow.appendChild(teamHeader);
+        });
+        draftBoard.appendChild(headerRow);
+
+        // Create pick slots for each round
+        for (let round = 1; round <= draftSettings.num_rounds; round++) {
+            const roundRow = document.createElement('div');
+            roundRow.classList.add('draft-row');
+            teams.forEach((team, index) => {
+                const pickCell = document.createElement('div');
+                pickCell.classList.add('draft-cell');
+                pickCell.dataset.teamIndex = index;
+                pickCell.dataset.round = round;
+                roundRow.appendChild(pickCell);
+            });
+            draftBoard.appendChild(roundRow);
+        }
+
+        draftOrder.appendChild(draftBoard); // Append the draft board to the container
+    }
 
     // Fetch players from JSON file
     async function fetchPlayers() {
         try {
-            const response = await fetch('http://localhost:3000/api/players');  // Full URL to the server
+            const response = await fetch('http://localhost:3000/api/players');
             const data = await response.json();
-            console.log(data); // Log to ensure the data is correct
             players = data.players;
+            players.sort((a, b) => b.projectedPoints.ppr - a.projectedPoints.ppr); // Sort players by projected points
             displayPlayers();
         } catch (error) {
             console.error('Error fetching players:', error);
         }
     }
 
-
-    // Display players
+    // Display players available for drafting
     function displayPlayers(filteredPlayers = players) {
-        playerList.innerHTML = '';
-        filteredPlayers.forEach(player => {
+        playerList.innerHTML = ''; // Clear player list before adding new players
+        filteredPlayers.forEach((player, index) => {
             const playerCard = document.createElement('div');
-            playerCard.classList.add('player-card');
+            playerCard.classList.add('player-card', 'player-row');
 
-            // Use player name for the image file
             const playerImageName = player.name.replace(/\s+/g, '-') + '.png';
 
             playerCard.innerHTML = `
-        <div class="player-info">
-            <img src="../images/${playerImageName}" alt="${player.name}" class="player-image-large">
-            <div class="player-details">
-                <h4>${player.name}</h4>
-                <p class="player-position ${player.position}">${player.position} | ${player.team} | Bye ${player.byeWeek}</p>
-                <p>Projected Points: ${player.projectedPoints.ppr} (PPR)</p>
-            </div>
-        </div>
-        <div class="draft-button-container">
-            <button class="draft-button">Draft</button>
-        </div>
-    `;
+                <div class="player-rank">${index + 1}.</div>
+                <div class="player-info">
+                    <img src="../images/${playerImageName}" alt="${player.name}" class="player-image-small">
+                    <div class="player-details">
+                        <span class="player-name">${player.name}</span>
+                        <span class="player-position-team">${player.position} | ${player.team}</span>
+                    </div>
+                </div>
+                <div class="player-points">${player.projectedPoints.ppr} PPR</div>
+                <div class="draft-button-container">
+                    <button class="draft-button">Draft</button>
+                </div>
+            `;
 
             playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));
             playerList.appendChild(playerCard);
         });
     }
 
-
-    // Filter players by position
+    // Filter players by position when dropdown changes
     function filterPlayers() {
         const position = positionFilter.value;
         const filteredPlayers = position === 'ALL' ? players : players.filter(p => p.position === position);
         displayPlayers(filteredPlayers);
     }
 
-    // Draft a player
+    // Draft a player manually
     function draftPlayer(player) {
-        const currentTeam = teams[0];  // Assume it's always the user's turn for simplicity
+        const currentTeam = teams[currentPickIndex % teams.length];
         currentTeam.roster.push(player);
         players = players.filter(p => p.id !== player.id);
 
-        // Mark player as drafted
+        // Update draft board with the drafted player
+        const round = Math.floor(currentPickIndex / teams.length) + 1;
+        const teamIndex = currentPickIndex % teams.length;
+        const pickCell = draftOrder.querySelector(`.draft-cell[data-team-index="${teamIndex}"][data-round="${round}"]`);
+        if (pickCell) {
+            pickCell.textContent = `${player.name} (${player.position})`;
+            pickCell.classList.add('drafted');
+        }
+
+        // Mark player as drafted and update the display
         displayPlayers();
         displayRosters();
 
-        // Automatically draft players for other teams
-        for (let i = 1; i < teams.length; i++) {
-            autoDraft(teams[i]);
+        // Move to the next pick
+        currentPickIndex++;
+
+        // Auto draft for other teams if it's not the user's turn
+        while (currentPickIndex % teams.length !== draftSettings.user_pick - 1) {
+            autoDraft(teams[currentPickIndex % teams.length]);
+            currentPickIndex++;
         }
     }
 
+    // Automatically draft a player for non-user teams
     function autoDraft(team) {
-        if (players.length === 0) return; // Stop if no players left
+        if (players.length === 0) return;
         const bestPlayer = players.shift(); // Pick the highest-ranked player
         team.roster.push(bestPlayer);
+
+        // Update draft board
+        const round = Math.floor(currentPickIndex / teams.length) + 1;
+        const teamIndex = currentPickIndex % teams.length;
+        const pickCell = draftOrder.querySelector(`.draft-cell[data-team-index="${teamIndex}"][data-round="${round}"]`);
+        if (pickCell) {
+            pickCell.textContent = `${bestPlayer.name} (${bestPlayer.position})`;
+            pickCell.classList.add('drafted');
+        }
+
+        // Update the player list and rosters
         displayPlayers();
         displayRosters();
     }
 
-
-
     // Display team rosters
     function displayRosters() {
-        rosterList.innerHTML = '';
+        rosterList.innerHTML = ''; // Clear current roster display
         teams.forEach(team => {
             const teamDiv = document.createElement('div');
             teamDiv.innerHTML = `<h3>${team.name}</h3>`;
             const rosterUl = document.createElement('ul');
 
-            // Categorize players by position
+            // Group players by their positions
             const groupedPlayers = groupPlayersByPosition(team.roster);
             Object.keys(groupedPlayers).forEach(position => {
                 const positionLi = document.createElement('li');
@@ -153,8 +204,4 @@ document.addEventListener('DOMContentLoaded', function () {
             return acc;
         }, {});
     }
-
-
-    initializeDraft();
 });
-
