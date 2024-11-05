@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             playerCard.innerHTML = `
             <div class="player-rank">${player.id}.</div>
-            <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-large">
+            <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-high-quality">
             <div class="player-info">
                 <span class="player-name">${player.name}</span>
                 <span class="player-position-team">${player.position} | ${player.team}</span>
@@ -112,32 +112,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Filter players by position when dropdown changes
-    function filterPlayers() {
-        const position = positionFilter.value;
-        const filteredPlayers = position === 'ALL' ? players : players.filter(p => p.position === position);
-        displayPlayers(filteredPlayers);
-    }
-
-    // Draft a player manually
     function draftPlayer(player) {
         const currentTeam = teams[currentPickIndex % teams.length];
         currentTeam.roster.push(player);
         players = players.filter(p => p.id !== player.id);
 
-        // Update draft board with the drafted player
-        const round = Math.floor(currentPickIndex / teams.length) + 1;
-        const teamIndex = currentPickIndex % teams.length;
-        const pickCell = draftOrder.querySelector(`.draft-cell[data-team-index="${teamIndex}"][data-round="${round}"]`);
-        if (pickCell) {
-            pickCell.textContent = `${player.name} (${player.position})`;
-            pickCell.classList.add('drafted');
+        // Check if there's a starting position available, else add to bench
+        let assigned = false;
+        if (!document.getElementById(`starter-${player.position.toLowerCase()}`).textContent) {
+            document.getElementById(`starter-${player.position.toLowerCase()}`).textContent = `${player.name} (${player.team})`;
+            assigned = true;
+        } else {
+            // Add to bench
+            const benchItem = document.createElement('li');
+            benchItem.textContent = `${player.name} (${player.position} | ${player.team})`;
+            document.getElementById('bench-list').appendChild(benchItem);
         }
 
-        // Mark player as drafted and update the display
+        // Update display
         displayPlayers();
         displayRosters();
-
-        // Move to the next pick
         currentPickIndex++;
 
         // Auto draft for other teams if it's not the user's turn
