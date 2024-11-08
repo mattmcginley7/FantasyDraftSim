@@ -107,6 +107,17 @@ button:hover {
     border-radius: 8px;
 }
 
+#draft-board {
+    width: 100%;
+}
+
+#draft-board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto;
+}
+
 .draft-round {
     margin-bottom: 10px;
 }
@@ -319,4 +330,53 @@ button:hover {
 #bench-list li {
     padding: 5px 0;
     border-bottom: 1px solid #ddd;
+}
+
+#teams-header {
+    display: grid;
+    grid-template-columns: repeat(var(--num-teams), minmax(100px, 1fr));
+    text-align: center;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 10px 0;
+}
+
+.team-header {
+    font-weight: bold;
+}
+
+#draft-grid-container {
+    overflow: auto;
+    max-height: 300px;
+    /* Adjust for the number of visible rows */
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+#draft-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--num-teams), minmax(100px, 1fr));
+    grid-auto-rows: 50px;
+    /* Each row represents a round */
+    gap: 10px;
+}
+
+.draft-row {
+    display: grid;
+    grid-template-columns: repeat(var(--num-teams), minmax(100px, 1fr));
+}
+
+.draft-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    text-align: center;
+    height: 50px;
+    box-sizing: border-box;
 }

@@ -50,3 +50,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.getElementById('draft-settings-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const numTeams = parseInt(document.getElementById('num-teams').value);
+    localStorage.setItem('numTeams', numTeams); // Save the number of teams to localStorage
+
+    window.location.href = 'draft.html'; // Redirect to draft page
+});
