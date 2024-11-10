@@ -116,6 +116,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     overflow-x: auto;
+    width: 100%;
 }
 
 .draft-round {
@@ -338,10 +339,10 @@ button:hover {
     text-align: center;
     background-color: #f4f4f4;
     border-bottom: 1px solid #ddd;
+    padding: 10px 0;
     position: sticky;
     top: 0;
     z-index: 1;
-    padding: 10px 0;
 }
 
 .team-header {
@@ -349,9 +350,7 @@ button:hover {
 }
 
 #draft-grid-container {
-    overflow: auto;
-    max-height: 300px;
-    /* Adjust for the number of visible rows */
+    overflow-y: auto;
     width: 100%;
     border: 1px solid #ddd;
 }
@@ -379,4 +378,27 @@ button:hover {
     text-align: center;
     height: 50px;
     box-sizing: border-box;
+}
+
+#view-toggle-buttons {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#view-toggle-buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#draft-board-section,
+#player-list-section {
+    display: none;
+    width: 100%;
+}
+
+#draft-board-section.active,
+#player-list-section.active {
+    display: block;
 }

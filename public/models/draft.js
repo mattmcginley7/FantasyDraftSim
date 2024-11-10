@@ -5,64 +5,44 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const numTeams = parseInt(localStorage.getItem('numTeams') || 10); // Default to 10 if not set
-    const draftGrid = document.getElementById('draft-grid');
-    const teamsHeader = document.getElementById('teams-header');
+    const draftBoardSection = document.getElementById('draft-board-section');
+    const playerListSection = document.getElementById('player-list-section');
+    const showDraftBoardButton = document.getElementById('show-draft-board');
+    const showPlayerListButton = document.getElementById('show-player-list');
 
-    // Ensure elements exist before proceeding
-    if (!teamsHeader || !draftGrid) {
-        console.error('Missing required elements for draft display');
-        return;
+    // Function to show the draft board view
+    function showDraftBoard() {
+        draftBoardSection.classList.add('active');
+        playerListSection.classList.remove('active');
     }
 
-    // Set the number of teams as a CSS variable to control grid columns
-    document.documentElement.style.setProperty('--num-teams', numTeams);
-
-    // Display team headers above the draft grid
-    teamsHeader.innerHTML = ''; // Clear any existing team headers
-    teamsHeader.style.gridTemplateColumns = `repeat(${numTeams}, minmax(100px, 1fr))`;
-    for (let i = 1; i <= numTeams; i++) {
-        const teamHeader = document.createElement('div');
-        teamHeader.classList.add('team-header');
-        teamHeader.textContent = `Team ${i}`;
-        teamsHeader.appendChild(teamHeader);
+    // Function to show the player list view
+    function showPlayerList() {
+        playerListSection.classList.add('active');
+        draftBoardSection.classList.remove('active');
     }
 
-    // Create grid for rounds and teams
-    draftGrid.innerHTML = ''; // Clear any existing draft grid content
-    draftGrid.style.gridTemplateColumns = `repeat(${numTeams}, minmax(100px, 1fr))`;
-    for (let round = 1; round <= 15; round++) { // Assuming 15 rounds
-        for (let team = 1; team <= numTeams; team++) {
-            const pickSlot = document.createElement('div');
-            pickSlot.classList.add('draft-slot');
-            pickSlot.dataset.round = round;
-            pickSlot.dataset.team = team;
-            draftGrid.appendChild(pickSlot);
-        }
-    }
+    // Event listeners for the toggle buttons
+    showDraftBoardButton.addEventListener('click', showDraftBoard);
+    showPlayerListButton.addEventListener('click', showPlayerList);
 
+    // Initialize with player list visible
+    showPlayerList();
     initializeDraft();
 });
 
 function initializeDraft() {
     const draftSettings = JSON.parse(localStorage.getItem('draftSettings'));
-    const numTeams = parseInt(localStorage.getItem('numTeams') || 10); // Default to 10 if not set
-    const numRounds = draftSettings ? draftSettings.num_rounds : 15; // Default to 15 rounds
+    const numTeams = parseInt(localStorage.getItem('numTeams') || 10);
+    const numRounds = draftSettings ? draftSettings.num_rounds : 15;
 
     const teamsHeader = document.getElementById('teams-header');
     const draftGrid = document.getElementById('draft-grid');
 
-    // Ensure elements exist
-    if (!teamsHeader || !draftGrid) {
-        console.error('Missing required elements for draft display');
-        return;
-    }
-
-    // Set CSS variable for grid column count
     document.documentElement.style.setProperty('--num-teams', numTeams);
 
-    // Populate the team headers
-    teamsHeader.innerHTML = ''; // Clear existing headers
+    // Create team headers
+    teamsHeader.innerHTML = '';
     teamsHeader.style.gridTemplateColumns = `repeat(${numTeams}, 1fr)`;
     for (let i = 1; i <= numTeams; i++) {
         const teamHeader = document.createElement('div');
@@ -71,10 +51,9 @@ function initializeDraft() {
         teamsHeader.appendChild(teamHeader);
     }
 
-    // Populate the draft grid
-    draftGrid.innerHTML = ''; // Clear existing grid content
+    // Create draft slots for each round
+    draftGrid.innerHTML = '';
     draftGrid.style.gridTemplateColumns = `repeat(${numTeams}, 1fr)`;
-
     for (let round = 1; round <= numRounds; round++) {
         for (let team = 1; team <= numTeams; team++) {
             const pickSlot = document.createElement('div');
