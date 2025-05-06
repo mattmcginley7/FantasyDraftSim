@@ -1,4 +1,5 @@
 const playerList = document.getElementById('player-list'); // Define playerList here
+let currentPickIndex = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
     initializeDraft();
@@ -10,62 +11,106 @@ document.addEventListener('DOMContentLoaded', function () {
     const showDraftBoardButton = document.getElementById('show-draft-board');
     const showPlayerListButton = document.getElementById('show-player-list');
 
-    // Function to show the draft board view
-    function showDraftBoard() {
-        draftBoardSection.classList.add('active');
-        playerListSection.classList.remove('active');
-    }
+    // Toggle Views
+    showDraftBoardButton.addEventListener('click', () => {
+        draftBoardSection.style.display = 'block';
+        playerListSection.style.display = 'none';
+    });
+    showPlayerListButton.addEventListener('click', () => {
+        draftBoardSection.style.display = 'none';
+        playerListSection.style.display = 'block';
+    });
 
-    // Function to show the player list view
-    function showPlayerList() {
-        playerListSection.classList.add('active');
-        draftBoardSection.classList.remove('active');
-    }
-
-    // Event listeners for the toggle buttons
-    showDraftBoardButton.addEventListener('click', showDraftBoard);
-    showPlayerListButton.addEventListener('click', showPlayerList);
-
-    // Initialize with player list visible
-    showPlayerList();
     initializeDraft();
 });
 
 function initializeDraft() {
     const draftSettings = JSON.parse(localStorage.getItem('draftSettings'));
-    const numTeams = parseInt(localStorage.getItem('numTeams') || 10);
-    const numRounds = draftSettings ? draftSettings.num_rounds : 15;
+    const numTeams = parseInt(localStorage.getItem('numTeams') || 8); // Default to 8 teams
+    const numRounds = draftSettings ? draftSettings.num_rounds : 15; // Default to 15 rounds
 
-    const teamsHeader = document.getElementById('teams-header');
+    const teamNamesRow = document.getElementById('team-names-row');
     const draftGrid = document.getElementById('draft-grid');
 
-    document.documentElement.style.setProperty('--num-teams', numTeams);
-
-    // Create team headers
-    teamsHeader.innerHTML = '';
-    teamsHeader.style.gridTemplateColumns = `repeat(${numTeams}, 1fr)`;
+    // Populate team headers
+    teamNamesRow.innerHTML = '';
     for (let i = 1; i <= numTeams; i++) {
-        const teamHeader = document.createElement('div');
-        teamHeader.classList.add('team-header');
-        teamHeader.textContent = `Team ${i}`;
-        teamsHeader.appendChild(teamHeader);
+        const th = document.createElement('th');
+        th.textContent = `Team ${i}`;
+        teamNamesRow.appendChild(th);
     }
 
-    // Create draft slots for each round
+    // Populate draft grid with rounds and picks
     draftGrid.innerHTML = '';
-    draftGrid.style.gridTemplateColumns = `repeat(${numTeams}, 1fr)`;
     for (let round = 1; round <= numRounds; round++) {
+        const row = document.createElement('tr');
         for (let team = 1; team <= numTeams; team++) {
-            const pickSlot = document.createElement('div');
-            pickSlot.classList.add('draft-slot');
-            pickSlot.dataset.round = round;
-            pickSlot.dataset.team = team;
-            draftGrid.appendChild(pickSlot);
+            const pickNumber = (round - 1) * numTeams + team; // Calculate pick number
+            const cell = document.createElement('td');
+            cell.classList.add('draft-cell');
+            cell.dataset.round = round;
+            cell.dataset.team = team;
+            cell.dataset.pick = pickNumber;
+            cell.textContent = `Round ${round}, Pick ${pickNumber}`;
+            row.appendChild(cell);
         }
+        draftGrid.appendChild(row);
     }
 
     fetchPlayers();
 }
+
+async function fetchPlayers() {
+    try {
+        const response = await fetch('http://localhost:3000/api/players');
+        const data = await response.json();
+        players = data.players;
+        players.sort((a, b) => a.id - b.id);
+        displayPlayers();
+    } catch (error) {
+        console.error('Error fetching players:', error);
+    }
+}
+
+function displayPlayers(filteredPlayers = players) {
+    const playerList = document.getElementById('player-list');
+    playerList.innerHTML = ''; // Clear player list
+
+    filteredPlayers.forEach(player => {
+        const playerCard = document.createElement('div');
+        playerCard.classList.add('player-card', 'player-row');
+        playerCard.innerHTML = `
+            <div class="player-rank">${player.id}.</div>
+            <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-high-quality">
+            <div class="player-info">
+                <span class="player-name">${player.name}</span>
+                <span class="player-position-team">${player.position} | ${player.team}</span>
+                <span class="player-points">${player.projectedPoints.ppr} PPR</span>
+            </div>
+            <button class="draft-button">Draft</button>
+        `;
+
+        playerCard.querySelector('.draft-button').addEventListener('click', () => draftPlayer(player));
+        playerList.appendChild(playerCard);
+    });
+}
+
+function draftPlayer(player) {
+    const numTeams = parseInt(localStorage.getItem('numTeams') || 8);
+    const currentRound = Math.floor(currentPickIndex / numTeams) + 1;
+    const currentTeam = (currentPickIndex % numTeams) + 1;
+
+    const draftCell = document.querySelector(`.draft-cell[data-round="${currentRound}"][data-team="${currentTeam}"]`);
+    if (draftCell) {
+        draftCell.textContent = `${player.name} (${player.position})`;
+        draftCell.classList.add('drafted');
+    }
+
+    players = players.filter(p => p.id !== player.id);
+    displayPlayers();
+    currentPickIndex++;
+}
+
 
 function displayDraftOrder(numRounds) {
     const draftOrder = document.getElementById('draft-order');
@@ -107,12 +152,13 @@ function displayDraftOrder(numRounds) {
 
     draftOrder.appendChild(draftBoard); // Append the draft board to the container
 }
+
 async function fetchPlayers() {
     try {
         const response = await fetch('http://localhost:3000/api/players');
         const data = await response.json();
         players = data.players;
-        players.sort((a, b) => a.id - b.id); // Sort players by id
+        players.sort((a, b) => a.id - b.id);
         displayPlayers();
     } catch (error) {
         console.error('Error fetching players:', error);
@@ -120,11 +166,12 @@ async function fetchPlayers() {
 }
 
 function displayPlayers(filteredPlayers = players) {
-    playerList.innerHTML = ''; // Clear player list before adding new players
+    const playerList = document.getElementById('player-list');
+    playerList.innerHTML = ''; // Clear player list
+
     filteredPlayers.forEach(player => {
         const playerCard = document.createElement('div');
         playerCard.classList.add('player-card', 'player-row');
-
         playerCard.innerHTML = `
             <div class="player-rank">${player.id}.</div>
             <img src="../images/${player.name.replace(/\s+/g, '-')}.png" alt="${player.name}" class="player-image-high-quality">
@@ -142,22 +189,19 @@ function displayPlayers(filteredPlayers = players) {
 }
 
 function draftPlayer(player) {
-    const currentTeam = teams[currentPickIndex % teams.length];
-    currentTeam.roster.push(player);
-    players = players.filter(p => p.id !== player.id); // Remove from draft pool for this session only
+    const numTeams = parseInt(localStorage.getItem('numTeams') || 8);
+    const currentRound = Math.floor(currentPickIndex / numTeams) + 1;
+    const currentTeam = (currentPickIndex % numTeams) + 1;
 
-    const round = Math.floor(currentPickIndex / teams.length) + 1;
-    const team = (currentPickIndex % teams.length) + 1;
-    const draftSlot = document.querySelector(`.draft-slot[data-round="${round}"][data-team="${team}"]`);
-
-    if (draftSlot) {
-        draftSlot.textContent = `${player.name} (${player.position})`;
-        draftSlot.classList.add('drafted');
+    const draftCell = document.querySelector(`.draft-cell[data-round="${currentRound}"][data-team="${currentTeam}"]`);
+    if (draftCell) {
+        draftCell.textContent = `${player.name} (${player.position})`;
+        draftCell.classList.add('drafted');
     }
 
+    players = players.filter(p => p.id !== player.id);
     displayPlayers();
     currentPickIndex++;
-    displayRosters();
 }
 
 function autoDraft(team) {

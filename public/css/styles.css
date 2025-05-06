@@ -402,3 +402,32 @@ button:hover {
 #player-list-section.active {
     display: block;
 }
+
+/* Draft Board Table Styling */
+#draft-board-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#draft-board-table th,
+#draft-board-table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+#draft-board-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.draft-cell {
+    height: 50px;
+    background-color: #f9f9f9;
+}
+
+.draft-cell.drafted {
+    background-color: #d1e7dd;
+    font-weight: bold;
+}
