@@ -5,213 +5,464 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NFL Draft Simulator</title>
-    <!-- Global stylesheet (Tailwind build or custom) -->
-    <link rel="stylesheet" href="../css/styles.css" />
+
+    <!-- ───────────── L I G H T  CSS  (no Tailwind build needed) -->
     <style>
-        /* Tiny helper in case you are not compiling Tailwind */
-        /* Remove these 5 lines if Tailwind is already available */
+        :root {
+            --indigo: #6366f1;
+            --bg: #f9fafb;
+            --text: #111827;
+            --muted: #6b7280;
+        }
+
+        /* core */
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font: 14px/1.35 system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        header {
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 2px 0 0;
+            font-size: 12px;
+        }
+
+        /* search icon 24×24  */
+        .search-btn {
+            width: 24px;
+            height: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* tab row */
+        nav.tabs {
+            display: flex;
+            position: sticky;
+            top: 64px;
+            z-index: 30;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+        }
+
+        nav.tabs button {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            background: none;
+        }
+
+        nav.tabs button.active {
+            border-bottom: 3px solid var(--indigo);
+            color: var(--indigo);
+        }
+
+        /* position filters */
+        #pos-filters {
+            display: flex;
+            gap: 4px;
+            padding: 8px;
+            overflow-x: auto;
+            background: #fff;
+            position: sticky;
+            top: 104px;
+            z-index: 25;
+        }
+
+        #pos-filters button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 9999px;
+            font-weight: 600;
+            background: #e5e7eb;
+        }
+
+        #pos-filters button.active {
+            background: var(--indigo);
+            color: #fff;
+        }
+
+        /* player list */
+        ul#player-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .player-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        .player-row.drafted {
+            opacity: .35;
+        }
+
+        .player-rank {
+            width: 28px;
+            text-align: right;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .player-name {
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+
+        .player-meta {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .draft-btn {
+            margin-left: auto;
+            padding: 4px 12px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            background: var(--indigo);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .draft-btn:disabled {
+            background: #d1d5db;
+            color: var(--muted);
+            cursor: default;
+        }
+
+        /* board grid */
+        #board-grid {
+            display: grid;
+            gap: 1px;
+            background: #d1d5db;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        #board-grid>div {
+            background: #fff;
+            padding: 4px 2px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* teams tab */
+        #team-tabs {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        #team-tabs button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 9999px;
+            background: #e5e7eb;
+            font-weight: 600;
+        }
+
+        #team-tabs button.active {
+            background: var(--indigo);
+            color: #fff;
+        }
+
+        .roster-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 6px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        main {
+            padding: 16px;
+        }
+
         .hidden {
             display: none;
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-gray-50">
-    <!-- Sticky header with tab nav -->
-    <header class="bg-neutral-900 text-white sticky top-0 z-50 shadow">
-        <nav class="flex justify-around text-sm font-semibold">
-            <button data-tab="rankings" class="tab-btn py-3 flex-1 border-b-2 border-indigo-500">Rankings</button>
-            <button data-tab="board" class="tab-btn py-3 flex-1 border-b-2 border-transparent">Draft Board</button>
-            <button data-tab="teams" class="tab-btn py-3 flex-1 border-b-2 border-transparent">Teams</button>
-        </nav>
+<body>
+
+    <!-- ───── Header: “You’re on the clock” strip -->
+    <header>
+        <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;background:#cbd5e1;border-radius:50%"></div>
+            <div>
+                <h1 id="clock-title">Your Pick!</h1>
+                <p id="clock-sub">Pick <span id="clock-pick">1.01</span> (<span id="clock-overall">1</span> Overall)</p>
+            </div>
+            <button aria-label="Search" class="search-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
     </header>
 
-    <!-- Main viewport (scrollable) -->
-    <main class="flex-1 overflow-y-auto p-4 space-y-6">
-        <!-- Rankings TAB -------------------------------------------------- -->
-        <section id="view-rankings" class="tab-view space-y-4">
-            <!-- Position filter -->
-            <div id="pos-filters" class="flex gap-2 overflow-auto pb-1"></div>
-            <!-- Player list -->
-            <ul id="player-list" class="space-y-2"></ul>
+    <!-- ───── Tab bar -->
+    <nav class="tabs">
+        <button data-tab="rankings" class="tab-btn active">Cheat Sheets</button>
+        <button data-tab="board" class="tab-btn">Draft Board</button>
+        <button data-tab="teams" class="tab-btn">Teams</button>
+    </nav>
+
+    <!-- ───── Position filters -->
+    <div id="pos-filters"></div>
+
+    <!-- ───── Main viewport -->
+    <main>
+        <!-- put this just under the <main> opening tag -->
+        <button id="start-btn" style="display:block;margin:24px auto 12px; padding:8px 20px;
+                       background:var(--indigo);color:#fff;border:none;border-radius:6px;
+                       font-weight:700;font-size:16px">
+            Start Draft
+        </button>
+
+        <!-- 1️⃣ Rankings -->
+        <section id="view-rankings">
+            <ul id="player-list"></ul>
         </section>
 
-        <!-- Draft Board TAB ---------------------------------------------- -->
-        <section id="view-board" class="tab-view hidden">
-            <div id="board-grid" class="grid text-xs gap-px bg-gray-300 rounded overflow-auto"
-                style="grid-template-columns: repeat(auto-fill, minmax(98px,1fr));"></div>
+        <!-- 2️⃣ Draft board -->
+        <section id="view-board" class="hidden">
+            <div id="board-grid"></div>
         </section>
 
-        <!-- Teams TAB ----------------------------------------------------- -->
-        <section id="view-teams" class="tab-view hidden space-y-4">
-            <div id="team-tabs" class="flex gap-2 overflow-x-auto pb-1 text-sm"></div>
-            <div id="team-roster" class="space-y-1"></div>
+        <!-- 3️⃣ Teams -->
+        <section id="view-teams" class="hidden">
+            <div id="team-tabs"></div>
+            <div id="team-roster"></div>
         </section>
     </main>
 
-    <!-- Sticky footer w/ pick info -->
-    <footer id="pick-info" class="bg-indigo-600 text-white py-2 text-center text-sm shadow-lg">
-        Pick <span id="current-pick">1.01</span> • Your turn!
-    </footer>
-
-    <!-- Logic ------------------------------------------------------------ -->
+    <!-- ───────────────────────────────────────  JS  -->
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            /* ────────────────────────────── Tabs */
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const views = {
-                rankings: document.getElementById('view-rankings'),
-                board: document.getElementById('view-board'),
-                teams: document.getElementById('view-teams')
-            };
-            tabButtons.forEach(btn => btn.addEventListener('click', () => {
-                tabButtons.forEach(b => b.classList.remove('border-indigo-500'));
-                btn.classList.add('border-indigo-500');
-                Object.values(views).forEach(v => v.classList.add('hidden'));
-                views[btn.dataset.tab].classList.remove('hidden');
-            }));
+        document.addEventListener('DOMContentLoaded', initDraft);
 
-            /* ────────────────────────────── Data */
+        async function initDraft() {
+            /* ========== Settings & data ========= */
             const settings = JSON.parse(localStorage.getItem('draftSettings') || '{}');
             const numTeams = settings.numTeams || 10;
             const rounds = settings.numRounds || 15;
+            const userSlot = (settings.userPick || 1) - 1;     // zero‑based
+            const isSnake = (settings.draftOrder || 'snake') === 'snake';
 
             const res = await fetch('/api/players');
             const { players } = await res.json();
             players.sort((a, b) => a.rank.overall - b.rank.overall);
 
-            /* ────────────────────────────── Rankings UI */
+            /* ========== State ========= */
+            const draftedIds = new Set();            // quick lookup
+            const board = [];                   // {round,pickInRound,teamIdx,player}
+            const rosters = Array.from({ length: numTeams }, () => []);
+            let overallPick = 1;
+
+            /* ========== DOM refs ========= */
+            const $clockPick = document.getElementById('clock-pick');
+            const $clockOvrl = document.getElementById('clock-overall');
+            const $clockTitle = document.getElementById('clock-title');
+
+            const $tabBtns = [...document.querySelectorAll('.tab-btn')];
+            const views = {
+                rankings: document.getElementById('view-rankings'),
+                board: document.getElementById('view-board'),
+                teams: document.getElementById('view-teams')
+            };
+            $tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    $tabBtns.forEach(b => b.classList.toggle('active', b === btn));
+                    Object.values(views).forEach(v => v.classList.add('hidden'));
+                    views[btn.dataset.tab].classList.remove('hidden');
+                });
+            });
+
+            /* ========== Position filters ========= */
             const positions = ['all', 'qb', 'rb', 'wr', 'te', 'k', 'dst'];
-            const posFiltersWrap = document.getElementById('pos-filters');
-            const playerListUL = document.getElementById('player-list');
-
+            const $filterWrap = document.getElementById('pos-filters');
             let activePos = 'all';
-            const renderFilters = () => {
-                posFiltersWrap.innerHTML = '';
-                positions.forEach(pos => {
-                    const btn = document.createElement('button');
-                    btn.textContent = pos.toUpperCase();
-                    btn.className = `px-3 py-1 rounded-full whitespace-nowrap text-xs ${pos === activePos ? 'bg-indigo-600 text-white' : 'bg-neutral-800 text-gray-200'}`;
-                    btn.addEventListener('click', () => {
-                        activePos = pos;
-                        renderFilters();
-                        renderPlayerList();
-                    });
-                    posFiltersWrap.appendChild(btn);
-                });
-            };
-
-            const renderPlayerList = () => {
-                playerListUL.innerHTML = '';
-                const filtered = players.filter(p => activePos === 'all' || p.position.toLowerCase() === activePos);
-                filtered.forEach(p => {
-                    const li = document.createElement('li');
-                    li.className = 'p-3 bg-white rounded shadow flex justify-between items-center hover:bg-gray-50 cursor-pointer';
-                    li.innerHTML = `
-                        <div class="flex flex-col">
-                            <span class="font-medium leading-none">${p.name}</span>
-                            <span class="text-xs text-gray-500">${p.position} • ${p.team} &nbsp;|&nbsp; Bye ${p.byeWeek}</span>
-                        </div>
-                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full font-semibold">#${p.rank.overall}</span>
-                    `;
-                    li.addEventListener('click', () => handlePlayerSelect(p));
-                    playerListUL.appendChild(li);
-                });
-            };
             renderFilters();
-            renderPlayerList();
+            function renderFilters() {
+                $filterWrap.innerHTML = '';
+                positions.forEach(pos => {
+                    const b = document.createElement('button');
+                    b.textContent = pos.toUpperCase();
+                    b.classList.toggle('active', pos === activePos);
+                    b.addEventListener('click', () => { activePos = pos; renderFilters(); renderPlayerList(); });
+                    $filterWrap.appendChild(b);
+                });
+            }
 
-            /* ────────────────────────────── Draft Board */
-            const boardGrid = document.getElementById('board-grid');
-            const boardState = []; // { round, pickInRound, teamIdx, player }
-            const renderBoard = () => {
-                boardGrid.innerHTML = '';
-                // header row
+            /* ========== Player list ========= */
+            const $list = document.getElementById('player-list');
+            renderPlayerList();
+            function renderPlayerList() {
+                $list.innerHTML = '';
+                players.forEach(p => {
+                    const visible = activePos === 'all' || p.position.toLowerCase() === activePos;
+                    if (!visible) return;
+
+                    const li = document.createElement('li');
+                    li.className = 'player-row' + (draftedIds.has(p.id) ? ' drafted' : '');
+                    li.innerHTML = `
+          <span class="player-rank">${p.rank.overall}</span>
+          <div style="flex:1;overflow:hidden">
+            <div class="player-name">${p.name}</div>
+            <div class="player-meta">${p.position} • ${p.team}</div>
+          </div>
+          <button class="draft-btn">Draft</button>
+        `;
+                    const btn = li.querySelector('.draft-btn');
+                    if (draftedIds.has(p.id)) btn.disabled = true;
+                    btn.addEventListener('click', () => userDraft(p, li, btn));
+                    $list.appendChild(li);
+                });
+            }
+
+            /* ========== Draft board ========= */
+            const $board = document.getElementById('board-grid');
+            renderBoard();
+            function renderBoard() {
+                $board.innerHTML = '';
+                $board.style.gridTemplateColumns = `repeat(${numTeams}, minmax(90px,1fr))`;
+                // header
                 for (let t = 0; t < numTeams; t++) {
-                    const header = document.createElement('div');
-                    header.textContent = `Team ${t + 1}`;
-                    header.className = 'bg-neutral-200 p-1 font-medium text-center';
-                    boardGrid.appendChild(header);
+                    const h = document.createElement('div');
+                    h.style.background = '#e5e7eb';
+                    h.textContent = `Team ${t + 1}`;
+                    $board.appendChild(h);
                 }
+                // cells
                 for (let r = 1; r <= rounds; r++) {
                     for (let t = 0; t < numTeams; t++) {
                         const cell = document.createElement('div');
-                        cell.className = 'bg-white p-1 h-8 truncate text-center';
-                        const pick = boardState.find(p => p.round === r && p.teamIdx === t);
-                        if (pick) cell.textContent = pick.player.name;
-                        boardGrid.appendChild(cell);
+                        const pick = board.find(p => p.round === r && p.teamIdx === t);
+                        cell.textContent = pick ? pick.player.name : '';
+                        $board.appendChild(cell);
                     }
                 }
-            };
-            renderBoard();
-
-            /* ────────────────────────────── Teams */
-            const teamTabs = document.getElementById('team-tabs');
-            const rosterDiv = document.getElementById('team-roster');
-            const teamRosters = Array.from({ length: numTeams }, () => []);
-            let activeTeamIdx = 0;
-            const renderTeamTabs = () => {
-                teamTabs.innerHTML = '';
-                for (let i = 0; i < numTeams; i++) {
-                    const btn = document.createElement('button');
-                    btn.textContent = `Team ${i + 1}`;
-                    btn.className = `px-3 py-1 rounded ${i === activeTeamIdx ? 'bg-indigo-600 text-white' : 'bg-neutral-200'}`;
-                    btn.addEventListener('click', () => {
-                        activeTeamIdx = i;
-                        renderTeamTabs();
-                        renderRoster();
-                    });
-                    teamTabs.appendChild(btn);
-                }
-            };
-            const renderRoster = () => {
-                rosterDiv.innerHTML = '';
-                const roster = teamRosters[activeTeamIdx];
-                if (!roster.length) {
-                    rosterDiv.textContent = 'No players drafted yet.';
-                } else {
-                    roster.forEach(p => {
-                        const row = document.createElement('div');
-                        row.className = 'p-2 bg-white rounded shadow flex justify-between items-center';
-                        row.innerHTML = `<span class="text-xs text-gray-500">${p.position}</span><span>${p.name}</span>`;
-                        rosterDiv.appendChild(row);
-                    });
-                }
-            };
-            renderTeamTabs();
-            renderRoster();
-
-            /* ────────────────────────────── Draft Logic */
-            let currentPick = 1; // overall pick counter
-            const totalPicks = rounds * numTeams;
-            const isSnake = (settings.draftOrder || 'snake') === 'snake';
-
-            const updateFooter = () => {
-                const round = Math.ceil(currentPick / numTeams);
-                const pickInRound = ((currentPick - 1) % numTeams) + 1;
-                document.getElementById('current-pick').textContent = `${round}.${String(pickInRound).padStart(2, '0')}`;
-            };
-            updateFooter();
-
-            function handlePlayerSelect(player) {
-                if (boardState.some(p => p.player.id === player.id)) return; // already taken
-
-                const round = Math.ceil(currentPick / numTeams);
-                let pickInRound = ((currentPick - 1) % numTeams) + 1;
-                if (isSnake && round % 2 === 0) pickInRound = numTeams - pickInRound + 1; // reverse order on even rounds
-                const teamIdx = pickInRound - 1;
-
-                boardState.push({ round, pickInRound, teamIdx, player });
-                teamRosters[teamIdx].push(player);
-
-                currentPick++;
-                renderBoard();
-                renderRoster();
-                if (currentPick > totalPicks) {
-                    document.getElementById('pick-info').textContent = 'Draft complete!';
-                } else updateFooter();
             }
-        });
+
+            /* ========== Teams tab ========= */
+            const $teamTabs = document.getElementById('team-tabs');
+            const $roster = document.getElementById('team-roster');
+            let activeTeam = userSlot;
+            renderTeamTabs(); renderRoster();
+            function renderTeamTabs() {
+                $teamTabs.innerHTML = '';
+                rosters.forEach((_, i) => {
+                    const b = document.createElement('button');
+                    b.textContent = `Team ${i + 1}`;
+                    b.classList.toggle('active', i === activeTeam);
+                    b.addEventListener('click', () => { activeTeam = i; renderTeamTabs(); renderRoster(); });
+                    $teamTabs.appendChild(b);
+                });
+            }
+            function renderRoster() {
+                $roster.innerHTML = '';
+                if (!rosters[activeTeam].length) { $roster.textContent = 'No players drafted yet.'; return; }
+                rosters[activeTeam].forEach(p => {
+                    const row = document.createElement('div');
+                    row.className = 'roster-row';
+                    row.innerHTML = `<span style="color:var(--muted);font-size:12px">${p.position}</span><span>${p.name}</span>`;
+                    $roster.appendChild(row);
+                });
+            }
+
+            /* ========== Helpers ========= */
+            const totalPicks = rounds * numTeams;
+            const currentTeamIdx = () => {           // who owns overallPick (0‑based team index)
+                const r = Math.ceil(overallPick / numTeams);
+                let idx = (overallPick - 1) % numTeams;
+                if (isSnake && r % 2 === 0) idx = numTeams - 1 - idx;
+                return idx;
+            };
+            const registerPick = (teamIdx, player) => {
+                const r = Math.ceil(overallPick / numTeams);
+                let pr = (overallPick - 1) % numTeams + 1;
+                if (isSnake && r % 2 === 0) pr = numTeams - pr + 1;
+                board.push({ round: r, pickInRound: pr, teamIdx, player });
+                rosters[teamIdx].push(player);
+                draftedIds.add(player.id);
+                overallPick++;
+            };
+            const cpuPick = () => {                  // simplest CPU: best available
+                const p = players.find(x => !draftedIds.has(x.id));
+                if (p) registerPick(currentTeamIdx(), p);
+            };
+            const advanceToUser = () => {
+                while (overallPick <= totalPicks && currentTeamIdx() !== userSlot) cpuPick();
+                updateClock();
+            };
+            function updateClock() {
+                const r = Math.ceil(overallPick / numTeams);
+                const pr = ((overallPick - 1) % numTeams) + 1;
+                $clockPick.textContent = `${r}.${String(pr).padStart(2, '0')}`;
+                $clockOvrl.textContent = overallPick > totalPicks ? totalPicks : overallPick;
+                if (overallPick > totalPicks) $clockTitle.textContent = 'Draft complete!';
+            }
+
+            /* ========== User action ========= */
+            function userDraft(player, row, btn) {
+                if (draftedIds.has(player.id)) return;
+                registerPick(userSlot, player);
+                row.classList.add('drafted');
+                btn.disabled = true;
+                renderBoard(); renderRoster(); updateClock();
+                if (overallPick <= totalPicks) { advanceToUser(); renderPlayerList(); }
+            }
+
+            /* ========== Kick‑off ========= */
+            advanceToUser();   // let CPU move until it's our first pick
+        }
     </script>
 </body>
 
