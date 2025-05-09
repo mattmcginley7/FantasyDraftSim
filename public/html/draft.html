@@ -461,7 +461,66 @@
             }
 
             /* ========== Kick‑off ========= */
-            advanceToUser();   // let CPU move until it's our first pick
+            /* ────────────────────────────── Kick‑off & engine */
+
+            let autoId = null;              // holds setInterval id
+            let draftStarted = false;
+
+            document.getElementById('start-btn').addEventListener('click', () => {
+                draftStarted = true;
+                document.getElementById('start-btn').style.display = 'none';
+                startAutoDraft();
+                // first advance to user turn in case you’re pick 1.01
+                advanceToUser();
+                renderEverything();
+            });
+
+            function startAutoDraft() {
+                // fire every 500 ms while it’s not the user’s turn
+                autoId = setInterval(() => {
+                    if (overallPick > totalPicks) return clearInterval(autoId);
+
+                    const teamIdx = currentTeamIdx();
+                    if (teamIdx === userSlot) {
+                        // stop when user is up
+                        clearInterval(autoId);
+                        return;
+                    }
+                    cpuPick();          // makes the pick & increments overallPick
+                    renderEverything(); // updates all UIs
+                }, 500);
+            }
+
+            // call this whenever the UI needs a full refresh
+            function renderEverything() {
+                renderBoard();
+                renderRoster();
+                renderPlayerList();
+                updateClock();
+            }
+
+            /* ───────── modify onUserDraft so it restarts auto‑draft afterwards */
+
+            function userDraft(player, row, btn) {
+                if (draftedIds.has(player.id)) return;
+                registerPick(userSlot, player);
+                row.classList.add('drafted'); btn.disabled = true;
+                renderEverything();
+
+                if (overallPick <= totalPicks) {
+                    // short delay before CPU resumes
+                    setTimeout(startAutoDraft, 300);
+                }
+            }
+
+            /* ───────── initial page render (before any picks) */
+            renderFilters();
+            renderPlayerList();
+            renderTeamTabs();
+            renderRoster();
+            renderBoard();
+            updateClock();                // shows 1.01 even before draft starts
+
         }
     </script>
 </body>
