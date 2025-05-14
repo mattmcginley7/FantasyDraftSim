@@ -291,6 +291,10 @@
         async function initDraft() {
             /* ========== Settings & data ========= */
             const settings = JSON.parse(localStorage.getItem('draftSettings') || '{}');
+            const scoreType = settings.scoringType || 'standard';   //  "standard" | "halfPpr" | "ppr"
+            const scoreLabel = scoreType === 'ppr' ? 'PPR Pts'
+                : scoreType === 'halfPpr' ? '½‑PPR Pts'
+                    : 'Std Pts';
             const numTeams = settings.numTeams || 10;
             const rounds = settings.numRounds || 15;
             const userSlot = (settings.userPick || 1) - 1;     // zero‑based
