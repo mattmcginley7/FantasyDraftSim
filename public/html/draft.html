@@ -8,6 +8,7 @@
 
     <!-- ───────────── L I G H T  CSS  (no Tailwind build needed) -->
     <style>
+
         :root {
             --indigo: #6366f1;
             --bg: #f9fafb;
@@ -226,6 +227,15 @@
         .hidden {
             display: none;
         }
+
+        .player-ppg{
+            font-weight:600;
+            font-size:12px;
+            color:var(--muted);
+            margin-left:6px;          /* space between name and number */
+            white-space:nowrap;       /* keep “14.9 PPG” together */
+}
+
     </style>
 </head>
 
@@ -354,22 +364,36 @@
                     const visible = activePos === 'all' || p.position.toLowerCase() === activePos;
                     if (!visible) return;
 
+                    /* NEW → pull the correct projected number */
+                    const pts = p.projectedPoints?.[scoreType] ?? '–';
+
                     const li = document.createElement('li');
                     li.className = 'player-row' + (draftedIds.has(p.id) ? ' drafted' : '');
+
+                    /* NEW → insert a small points column before the Draft button */
                     li.innerHTML = `
-          <span class="player-rank">${p.rank.overall}</span>
-          <div style="flex:1;overflow:hidden">
-            <div class="player-name">${p.name}</div>
-            <div class="player-meta">${p.position} • ${p.team}</div>
-          </div>
-          <button class="draft-btn">Draft</button>
-        `;
+  <span class="player-rank">${p.rank.overall}</span>
+
+  <div style="flex:1;overflow:hidden">
+    <!-- points now live right after the name -->
+    <div class="player-name">
+      ${p.name}
+      <span class="player-ppg">${pts} PPG</span>
+    </div>
+    <div class="player-meta">${p.position} • ${p.team}</div>
+  </div>
+
+  <button class="draft-btn">Draft</button>
+`;
+
+
                     const btn = li.querySelector('.draft-btn');
                     if (draftedIds.has(p.id)) btn.disabled = true;
                     btn.addEventListener('click', () => userDraft(p, li, btn));
                     $list.appendChild(li);
                 });
             }
+
 
             /* ========== Draft board ========= */
             const $board = document.getElementById('board-grid');
