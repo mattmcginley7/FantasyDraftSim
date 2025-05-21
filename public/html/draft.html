@@ -317,10 +317,39 @@
             const { players } = await res.json();
             players.sort((a, b) => a.rank.overall - b.rank.overall);
 
+            /* pull numeric counts (they come in as strings) */
+            const counts = {
+                qb: +settings.qb || 0,
+                rb: +settings.rb || 0,
+                wr: +settings.wr || 0,
+                te: +settings.te || 0,
+                flex: +settings.flex || 0,   // RB/WR/TE
+                superflex: +settings.superflex || 0,   // QB/RB/WR/TE
+                dst: +settings.dst || 0,
+                k: +settings.k || 0,
+            };
+
+            /* build an ordered array of starting-slots */
+            const rosterSlots = [
+                ...Array(counts.qb).fill('QB'),
+                ...Array(counts.rb).fill('RB'),
+                ...Array(counts.wr).fill('WR'),
+                ...Array(counts.te).fill('TE'),
+                ...Array(counts.flex).fill('FLEX'),
+                ...Array(counts.superflex).fill('SUPERFLEX'),
+                ...Array(counts.dst).fill('DST'),
+                ...Array(counts.k).fill('K'),
+            ];
+
+
             /* ========== State ========= */
             const draftedIds = new Set();            // quick lookup
             const board = [];                   // {round,pickInRound,teamIdx,player}
-            const rosters = Array.from({ length: numTeams }, () => []);
+            const rosters = Array.from({ length: numTeams }, () => ({
+                starters: Array(rosterSlots.length).fill(null),   // fixed slots
+                bench: []                                      // extras
+            }));
+
             let overallPick = 1;
 
             /* ========== DOM refs ========= */
@@ -438,14 +467,38 @@
             }
             function renderRoster() {
                 $roster.innerHTML = '';
-                if (!rosters[activeTeam].length) { $roster.textContent = 'No players drafted yet.'; return; }
-                rosters[activeTeam].forEach(p => {
+
+                const { starters, bench } = rosters[activeTeam];
+                if (!starters.some(Boolean) && !bench.length) {
+                    $roster.textContent = 'No players drafted yet.'; return;
+                }
+
+                // starters in slot order
+                starters.forEach((p, i) => {
                     const row = document.createElement('div');
                     row.className = 'roster-row';
-                    row.innerHTML = `<span style="color:var(--muted);font-size:12px">${p.position}</span><span>${p.name}</span>`;
+                    row.innerHTML =
+                        `<span style="color:var(--muted);font-size:12px">${rosterSlots[i]}</span>` +
+                        `<span>${p ? p.name : '—'}</span>`;
                     $roster.appendChild(row);
                 });
+
+                // bench header (show only if bench not empty)
+                if (bench.length) {
+                    const h = document.createElement('div');
+                    h.textContent = 'Bench';
+                    h.style = 'margin:6px 0 2px;font-weight:600;font-size:12px;color:var(--muted)';
+                    $roster.appendChild(h);
+
+                    bench.forEach(p => {
+                        const row = document.createElement('div');
+                        row.className = 'roster-row';
+                        row.innerHTML = `<span style="color:var(--muted);font-size:12px">${p.position}</span><span>${p.name}</span>`;
+                        $roster.appendChild(row);
+                    });
+                }
             }
+
 
             /* ========== Helpers ========= */
             const totalPicks = rounds * numTeams;
@@ -455,15 +508,35 @@
                 if (isSnake && r % 2 === 0) idx = numTeams - 1 - idx;
                 return idx;
             };
+            function fits(slot, pos) {
+                if (slot === pos) return true;
+                if (slot === 'FLEX') return ['RB', 'WR', 'TE'].includes(pos);
+                if (slot === 'SUPERFLEX') return ['QB', 'RB', 'WR', 'TE'].includes(pos);
+                return false;
+            }
             const registerPick = (teamIdx, player) => {
                 const r = Math.ceil(overallPick / numTeams);
                 let pr = (overallPick - 1) % numTeams + 1;
                 if (isSnake && r % 2 === 0) pr = numTeams - pr + 1;
+
                 board.push({ round: r, pickInRound: pr, teamIdx, player });
-                rosters[teamIdx].push(player);
+
+                /* ===== NEW starter / bench logic ===== */
+                const roster = rosters[teamIdx];
+                let placed = false;
+                for (let i = 0; i < rosterSlots.length; i++) {
+                    if (!roster.starters[i] && fits(rosterSlots[i], player.position)) {
+                        roster.starters[i] = player;
+                        placed = true;
+                        break;
+                    }
+                }
+                if (!placed) roster.bench.push(player);
+
                 draftedIds.add(player.id);
                 overallPick++;
             };
+
             function cpuPick() {
                 const avail = players.filter(p => !draftedIds.has(p.id));
                 if (!avail.length) return;
