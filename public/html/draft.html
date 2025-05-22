@@ -238,6 +238,37 @@
   flex-shrink:0;                    /* never squeeze smaller */
 }
 
+/* -- Position badge / row colors -- */
+.pos-qb        { background:#ece9ff; }
+.pos-rb        { background:#e7f7ec; }
+.pos-wr        { background:#eaf4ff; }
+.pos-te        { background:#fff3e8; }
+.pos-flex,
+.pos-superflex { background:#f5f5f5; }
+.pos-dst       { background:#ffecec; }
+.pos-k         { background:#e9faff; }
+.pos-bench     { background:#f9fafb; }
+
+/* kill the grid and stack rows vertically */
+.roster-stack{
+  display:flex;
+  flex-direction:column;
+  gap:6px;            /* vertical spacing between rows */
+}
+
+/* keep the same colored rows you added earlier */
+.roster-row{
+  padding:6px 8px;
+  border-radius:6px;
+  font-size:13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+}
+
+/* ...existing pos-qb, pos-rb, etc. classes remain unchanged ... */
+
 
     </style>
 </head>
@@ -466,6 +497,8 @@
                 });
             }
             function renderRoster() {
+                $roster.className = 'roster-stack';
+
                 $roster.innerHTML = '';
 
                 const { starters, bench } = rosters[activeTeam];
@@ -476,7 +509,8 @@
                 // starters in slot order
                 starters.forEach((p, i) => {
                     const row = document.createElement('div');
-                    row.className = 'roster-row';
+                    row.className = `roster-row pos-${(rosterSlots[i] || 'bench').toLowerCase()}`;
+
                     row.innerHTML =
                         `<span style="color:var(--muted);font-size:12px">${rosterSlots[i]}</span>` +
                         `<span>${p ? p.name : '—'}</span>`;
@@ -492,7 +526,8 @@
 
                     bench.forEach(p => {
                         const row = document.createElement('div');
-                        row.className = 'roster-row';
+                        row.className = 'roster-row pos-bench';
+
                         row.innerHTML = `<span style="color:var(--muted);font-size:12px">${p.position}</span><span>${p.name}</span>`;
                         $roster.appendChild(row);
                     });
