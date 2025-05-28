@@ -431,7 +431,10 @@
                     const pts = p.projectedPoints?.[scoreType] ?? '–';
 
                     const li = document.createElement('li');
-                    li.className = 'player-row' + (draftedIds.has(p.id) ? ' drafted' : '');
+                    li.className =
+                        `player-row pos-${p.position.toLowerCase()}` +
+                        (draftedIds.has(p.id) ? ' drafted' : '');
+
 
 
                     /* NEW → insert a small points column before the Draft button */
