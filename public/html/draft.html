@@ -479,7 +479,10 @@
                     for (let t = 0; t < numTeams; t++) {
                         const cell = document.createElement('div');
                         const pick = board.find(p => p.round === r && p.teamIdx === t);
-                        cell.textContent = pick ? pick.player.name : '';
+                        if (pick) {
+                            cell.textContent = pick.player.name;
+                            cell.classList.add(`pos-${pick.player.position.toLowerCase()}`);
+                        }
                         $board.appendChild(cell);
                     }
                 }
