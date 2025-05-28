@@ -418,16 +418,27 @@
                 });
             }
 
+            // HOISTED so everything below can call it
+            function currentTeamIdx() {
+                const r = Math.ceil(overallPick / numTeams);
+                let idx = (overallPick - 1) % numTeams;
+                if (isSnake && r % 2 === 0) idx = numTeams - 1 - idx;
+                return idx;
+            }
+
+
             /* ========== Player list ========= */
             const $list = document.getElementById('player-list');
             renderPlayerList();
             function renderPlayerList() {
                 $list.innerHTML = '';
+
+                const userTurn = currentTeamIdx() === userSlot;   // safe now!
+
                 players.forEach(p => {
                     const visible = activePos === 'all' || p.position.toLowerCase() === activePos;
                     if (!visible) return;
 
-                    /* NEW → pull the correct projected number */
                     const pts = p.projectedPoints?.[scoreType] ?? '–';
 
                     const li = document.createElement('li');
@@ -435,31 +446,25 @@
                         `player-row pos-${p.position.toLowerCase()}` +
                         (draftedIds.has(p.id) ? ' drafted' : '');
 
-
-
-                    /* NEW → insert a small points column before the Draft button */
                     li.innerHTML = `
-  <span class="player-rank">${p.rank.overall}</span>
+      <span class="player-rank">${p.rank.overall}</span>
 
-  <div style="flex:1;overflow:hidden">
-    <div class="player-name">${p.name}</div>
-    <div class="player-meta">${p.position} • ${p.team}</div>
-  </div>
+      <div style="flex:1;overflow:hidden">
+        <div class="player-name">${p.name}</div>
+        <div class="player-meta">${p.position} • ${p.team}</div>
+      </div>
 
-  <div class="player-ppg" title="${scoreLabel}">${pts} PPG</div>
+      <div class="player-ppg" title="${scoreLabel}">${pts} PPG</div>
 
-  <button class="draft-btn">Draft</button>
-`;
-
-
+      <button class="draft-btn">Draft</button>
+    `;
 
                     const btn = li.querySelector('.draft-btn');
-                    if (draftedIds.has(p.id)) btn.disabled = true;
+                    btn.disabled = draftedIds.has(p.id) || !userTurn;
                     btn.addEventListener('click', () => userDraft(p, li, btn));
                     $list.appendChild(li);
                 });
             }
-
 
             /* ========== Draft board ========= */
             const $board = document.getElementById('board-grid');
@@ -544,12 +549,7 @@
 
             /* ========== Helpers ========= */
             const totalPicks = rounds * numTeams;
-            const currentTeamIdx = () => {           // who owns overallPick (0‑based team index)
-                const r = Math.ceil(overallPick / numTeams);
-                let idx = (overallPick - 1) % numTeams;
-                if (isSnake && r % 2 === 0) idx = numTeams - 1 - idx;
-                return idx;
-            };
+            
             function fits(slot, pos) {
                 if (slot === pos) return true;
                 if (slot === 'FLEX') return ['RB', 'WR', 'TE'].includes(pos);
