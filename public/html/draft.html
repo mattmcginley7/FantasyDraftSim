@@ -433,6 +433,7 @@
                     const li = document.createElement('li');
                     li.className = 'player-row' + (draftedIds.has(p.id) ? ' drafted' : '');
 
+
                     /* NEW → insert a small points column before the Draft button */
                     li.innerHTML = `
   <span class="player-rank">${p.rank.overall}</span>

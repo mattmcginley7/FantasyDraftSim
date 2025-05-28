@@ -1287,9 +1287,9 @@
             "team": "NYG",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 10.59,
+                "ppr": 13.47,
+                "halfPpr": 12.03
             },
             "rank": {
                 "overall": 81,
@@ -1303,9 +1303,9 @@
             "team": "CLE",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 9.41,
+                "ppr": 14.29,
+                "halfPpr": 11.85
             },
             "rank": {
                 "overall": 82,
@@ -1319,9 +1319,9 @@
             "team": "DET",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 17.41,
+                "ppr": 17.41,
+                "halfPpr": 17.41
             },
             "rank": {
                 "overall": 83,
@@ -1335,9 +1335,9 @@
             "team": "MIA",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 7.06,
+                "ppr": 11.29,
+                "halfPpr": 9.18
             },
             "rank": {
                 "overall": 84,
@@ -1351,9 +1351,9 @@
             "team": "LAC",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 10.47,
+                "ppr": 12.94,
+                "halfPpr": 11.71
             },
             "rank": {
                 "overall": 85,
@@ -1367,9 +1367,9 @@
             "team": "CHI",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 9.35,
+                "ppr": 14.12,
+                "halfPpr": 11.74
             },
             "rank": {
                 "overall": 86,
@@ -1383,9 +1383,9 @@
             "team": "GB",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 9.29,
+                "ppr": 13.94,
+                "halfPpr": 11.62
             },
             "rank": {
                 "overall": 87,
@@ -1399,9 +1399,9 @@
             "team": "WAS",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 9.24,
+                "ppr": 13.82,
+                "halfPpr": 11.53
             },
             "rank": {
                 "overall": 88,
@@ -1415,9 +1415,9 @@
             "team": "JAC",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 10.35,
+                "ppr": 12.59,
+                "halfPpr": 11.47
             },
             "rank": {
                 "overall": 89,
@@ -1431,9 +1431,9 @@
             "team": "PIT",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 10.24,
+                "ppr": 13.18,
+                "halfPpr": 11.71
             },
             "rank": {
                 "overall": 90,
@@ -1447,9 +1447,9 @@
             "team": "LAC",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 17.29,
+                "ppr": 17.29,
+                "halfPpr": 17.29
             },
             "rank": {
                 "overall": 91,
@@ -1463,9 +1463,9 @@
             "team": "NE",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 10.12,
+                "ppr": 13.06,
+                "halfPpr": 11.59
             },
             "rank": {
                 "overall": 92,
@@ -1479,9 +1479,9 @@
             "team": "SF",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 9.18,
+                "ppr": 13.65,
+                "halfPpr": 11.42
             },
             "rank": {
                 "overall": 93,
@@ -1495,9 +1495,9 @@
             "team": "CLE",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 6.94,
+                "ppr": 11.12,
+                "halfPpr": 9.03
             },
             "rank": {
                 "overall": 94,
@@ -1511,9 +1511,9 @@
             "team": "GB",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 6.82,
+                "ppr": 10.94,
+                "halfPpr": 8.88
             },
             "rank": {
                 "overall": 95,
@@ -1527,9 +1527,9 @@
             "team": "SF",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 17.18,
+                "ppr": 17.18,
+                "halfPpr": 17.18
             },
             "rank": {
                 "overall": 96,
@@ -1543,9 +1543,9 @@
             "team": "KC",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 6.71,
+                "ppr": 11.00,
+                "halfPpr": 8.86
             },
             "rank": {
                 "overall": 97,
@@ -1559,9 +1559,9 @@
             "team": "SF",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 9.12,
+                "ppr": 13.47,
+                "halfPpr": 11.30
             },
             "rank": {
                 "overall": 98,
@@ -1575,9 +1575,9 @@
             "team": "CHI",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 17.06,
+                "ppr": 17.06,
+                "halfPpr": 17.06
             },
             "rank": {
                 "overall": 99,
@@ -1591,9 +1591,9 @@
             "team": "GB",
             "byeWeek": null,
             "projectedPoints": {
-                "standard": null,
-                "ppr": null,
-                "halfPpr": null
+                "standard": 16.94,
+                "ppr": 16.94,
+                "halfPpr": 16.94
             },
             "rank": {
                 "overall": 100,
