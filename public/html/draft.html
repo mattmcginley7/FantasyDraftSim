@@ -583,24 +583,20 @@
                 const avail = players.filter(p => !draftedIds.has(p.id));
                 if (!avail.length) return;
 
-                // Looseness grows from 0 (first pick) to 1 (last pick)
-                const looseness = overallPick / totalPicks;          // 0 → 1
-                // Pool size starts at 3, grows to ~25 by the final rounds
+                const looseness = overallPick / totalPicks;                // 0 → 1
                 const poolSize = Math.min(
                     avail.length,
-                    Math.max(3, Math.floor(3 + looseness * 22))
+                    Math.max(5, Math.floor(5 + looseness * 40))   // 5-45
                 );
 
-                // Bias toward the top of the pool:  0 = best, poolSize-1 = worst
-                // We’ll use an exponential-ish curve that flattens later.
-                const r = Math.random();                             // 0-1 uniform
-                // exponent drops from 4 (aggressive) → 1 (uniform)
-                const expo = 4 - 3 * looseness;
+                const expo = 3.0 - 2.5 * looseness;   // 3 early → 0.5 late
+                const r = Math.random();
                 const idx = Math.floor(Math.pow(r, expo) * poolSize);
 
                 const pick = avail[idx];
                 registerPick(currentTeamIdx(), pick);
             }
+
 
             const advanceToUser = () => {
                 while (overallPick <= totalPicks && currentTeamIdx() !== userSlot) cpuPick();
