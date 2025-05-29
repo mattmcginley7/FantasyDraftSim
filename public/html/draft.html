@@ -64,15 +64,15 @@
         }
 
         /* tab row */
-        nav.tabs {
-            display: flex;
-            position: sticky;
-            top: 64px;
-            z-index: 30;
-            background: #fff;
-            border-bottom: 1px solid #e5e7eb;
-            font-weight: 600;
-        }
+        nav.tabs{
+  display:flex;
+  position:sticky;
+  top:56px;                  /* height of your header (adjust if needed) */
+  z-index:45;                /* higher than content, lower than header */
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+  font-weight:600;
+}
 
         nav.tabs button {
             flex: 1;
@@ -86,17 +86,17 @@
             color: var(--indigo);
         }
 
-        /* position filters */
-        #pos-filters {
-            display: flex;
-            gap: 4px;
-            padding: 8px;
-            overflow-x: auto;
-            background: #fff;
-            position: sticky;
-            top: 104px;
-            z-index: 25;
-        }
+        /* Position filter bar */
+#pos-filters{
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  padding:8px;
+  position:sticky;
+  top:96px;                  /* header height + tabs height */
+  z-index:44;
+  background:#fff;
+}
 
         #pos-filters button {
             padding: 4px 12px;
