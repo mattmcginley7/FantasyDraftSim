@@ -290,6 +290,12 @@
                 </svg>
             </button>
         </div>
+        <button id="restart-btn" style="margin-left:auto;padding:4px 10px;
+                       border:1px solid #94a3b8;border-radius:4px;
+                       background:#fff;color:#0f172a;font-size:12px;font-weight:600;">
+            Restart
+        </button>
+
     </header>
 
     <!-- ───── Tab bar -->
@@ -401,6 +407,17 @@
                     views[btn.dataset.tab].classList.remove('hidden');
                 });
             });
+
+            /* ───────── Restart button */
+            document.getElementById('restart-btn').addEventListener('click', () => {
+                if (confirm('Restart the draft and return to setup?')) {
+                    // keep the settings so they appear pre-filled when the user returns
+                    // OR clear them if you’d rather start fresh:
+                    // localStorage.removeItem('draftSettings');
+                    window.location.href = 'index.html';     // same folder as draft.html
+                }
+            });
+
 
             /* ========== Position filters ========= */
             const positions = ['all', 'qb', 'rb', 'wr', 'te', 'k', 'dst'];
