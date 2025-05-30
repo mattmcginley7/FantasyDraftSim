@@ -317,6 +317,10 @@
             Start Draft
         </button>
 
+        <input id="search-box" type="search" placeholder="Search players…" style="width:100%;padding:6px 10px;margin-bottom:6px;
+                      border:1px solid #d1d5db;border-radius:6px;font-size:14px;">
+
+        <div id="queue-bar">Queue: <span id="queue-tags"></span></div>
         <!-- 1️⃣ Rankings -->
         <section id="view-rankings">
             <ul id="player-list"></ul>
@@ -337,8 +341,16 @@
     <!-- ───────────────────────────────────────  JS  -->
     <script>
         document.addEventListener('DOMContentLoaded', initDraft);
-
         async function initDraft() {
+
+             /* ========== ELEMENTS AVAILABLE NOW ========== */
+            const $queueBar = document.getElementById('queue-bar');
+            const $queueTags = document.getElementById('queue-tags');
+            const queue = [];
+            function renderQueue() {
+                $queueTags.innerHTML = queue.map(p => `<span>${p.name}</span>`).join('');
+                $queueBar.style.display = queue.length ? 'block' : 'none';
+            }
             /* ========== Settings & data ========= */
             const settings = JSON.parse(localStorage.getItem('draftSettings') || '{}');
             const scoreType = settings.scoringType || 'standard';   //  "standard" | "halfPpr" | "ppr"
@@ -417,7 +429,7 @@
                     window.location.href = 'index.html';     // same folder as draft.html
                 }
             });
-
+            
 
             /* ========== Position filters ========= */
             const positions = ['all', 'qb', 'rb', 'wr', 'te', 'k', 'dst'];
@@ -446,18 +458,27 @@
 
             /* ========== Player list ========= */
             const $list = document.getElementById('player-list');
-            renderPlayerList();
+            const $search = document.getElementById('search-box');
+            $search.addEventListener('input', renderPlayerList);
             function renderPlayerList() {
                 $list.innerHTML = '';
 
-                const userTurn = currentTeamIdx() === userSlot;   // safe now!
+                /* --- Helpers ------------------------------------------------------- */
+                const userTurn = currentTeamIdx() === userSlot;    // whose pick?
+                const query = document.getElementById('search-box')
+                    .value.trim().toLowerCase(); // live search text
 
                 players.forEach(p => {
-                    const visible = activePos === 'all' || p.position.toLowerCase() === activePos;
-                    if (!visible) return;
+                    /* filter by position pills + search query */
+                    const visiblePos = activePos === 'all' ||
+                        p.position.toLowerCase() === activePos;
+                    const visibleSearch = !query ||
+                        p.name.toLowerCase().includes(query);
+                    if (!visiblePos || !visibleSearch) return;
 
                     const pts = p.projectedPoints?.[scoreType] ?? '–';
 
+                    /* build row ------------------------------------------------------- */
                     const li = document.createElement('li');
                     li.className =
                         `player-row pos-${p.position.toLowerCase()}` +
@@ -473,12 +494,30 @@
 
       <div class="player-ppg" title="${scoreLabel}">${pts} PPG</div>
 
+      <button class="queue-btn"
+              title="Add to queue"
+              style="border:none;background:none;font-size:16px;">★</button>
+
       <button class="draft-btn">Draft</button>
     `;
 
-                    const btn = li.querySelector('.draft-btn');
-                    btn.disabled = draftedIds.has(p.id) || !userTurn;
-                    btn.addEventListener('click', () => userDraft(p, li, btn));
+                    /* buttons --------------------------------------------------------- */
+                    const qbtn = li.querySelector('.queue-btn');
+                    const dbtn = li.querySelector('.draft-btn');
+
+                    // disable Draft when not your pick or already taken
+                    dbtn.disabled = draftedIds.has(p.id) || !userTurn;
+
+                    qbtn.addEventListener('click', e => {
+                        e.stopPropagation();
+                        if (!queue.includes(p) && !draftedIds.has(p.id)) {
+                            queue.push(p);
+                            renderQueue();
+                        }
+                    });
+
+                    dbtn.addEventListener('click', () => userDraft(p, li, dbtn));
+
                     $list.appendChild(li);
                 });
             }
@@ -593,6 +632,9 @@
                 if (!placed) roster.bench.push(player);
 
                 draftedIds.add(player.id);
+
+                const idx = queue.indexOf(player);
+                if (idx !== -1) { queue.splice(idx, 1); renderQueue(); }
                 overallPick++;
             };
 
