@@ -89,7 +89,7 @@
                     <label>Pick&nbsp;Timer&nbsp;(seconds)
                         <input type="number" name="pickTimer" value="60" min="15" max="300" step="15" required>
                     </label>
-
+                    
                     <label>CPU&nbsp;Difficulty
                         <select id="cpu-difficulty" name="cpuDifficulty" required>
                             <option value="normal" selected>Normal</option>
@@ -97,6 +97,11 @@
                             <option value="sharp">Sharp (Values ADP aggressively)</option>
                         </select>
                     </label>
+
+                    <label style="display:block;margin-top:1rem">
+                        ADP Drift <span id="drift-value" style="font-weight:600">30</span>
+                        <input type="range" id="adp-drift" name="adpDrift" min="0" max="100" step="10" value="30"
+                            style="width:100%;margin-top:4px">              </label>
                 </div>
             </fieldset>
 
@@ -116,6 +121,11 @@
             const userPickSelect = document.getElementById('user-pick');
             const numRoundsSelect = document.getElementById('num-rounds');
             const form = document.getElementById('draft-settings-form');
+
+            // ADP drift slider
+            document.getElementById('adp-drift').addEventListener('input', e => {
+                document.getElementById('drift-value').textContent = e.target.value;
+            });
 
             // Populate user‑pick dropdown based on # teams
             const populateUserPick = () => {
@@ -144,6 +154,7 @@
                 data.userPick = Number(data.userPick);
                 data.numRounds = Number(data.numRounds);
                 data.pickTimer = Number(data.pickTimer);
+                data.adpDrift = Number(data.adpDrift);
 
                 // Roster sanity check
                 const rosterSpots = ['qb', 'rb', 'wr', 'te', 'flex', 'superflex', 'dst', 'k']

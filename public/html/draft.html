@@ -353,14 +353,26 @@
             }
             /* ========== Settings & data ========= */
             const settings = JSON.parse(localStorage.getItem('draftSettings') || '{}');
-            const scoreType = settings.scoringType || 'standard';   //  "standard" | "halfPpr" | "ppr"
-            const scoreLabel = scoreType === 'ppr' ? 'PPR Pts'
-                : scoreType === 'halfPpr' ? '½‑PPR Pts'
-                    : 'Std Pts';
-            const numTeams = settings.numTeams || 10;
-            const rounds = settings.numRounds || 15;
-            const userSlot = (settings.userPick || 1) - 1;     // zero‑based
+
+            const numTeams = +settings.numTeams || 10;   // <-- ⬆ moved up
+            const rounds = +settings.numRounds || 15;
+            const userSlot = (+settings.userPick || 1) - 1;
             const isSnake = (settings.draftOrder || 'snake') === 'snake';
+
+            const scoreType = settings.scoringType || 'standard';
+            const scoreLabel = scoreType === 'ppr' ? 'PPR Pts'
+                : scoreType === 'halfPpr' ? '½-PPR Pts' : 'Std Pts';
+
+            const drift = +settings.adpDrift || 30;        // slider 0-100
+
+            const personalities = [
+                { name: 'Balanced', bias: { QB: 1, RB: 1, WR: 1, TE: 1 } },
+                { name: 'Hero RB', bias: { QB: 0.9, RB: 1.4, WR: 1, TE: 1 } },
+                { name: 'Zero RB', bias: { QB: 1, RB: 0.6, WR: 1.3, TE: 1 } },
+                { name: 'Late QB', bias: { QB: 0.4, RB: 1, WR: 1.1, TE: 1 } },
+            ];
+            const teamPersona = Array.from({ length: numTeams },
+                () => personalities[Math.floor(Math.random() * personalities.length)]);
 
             const res = await fetch('/api/players');
             const { players } = await res.json();
@@ -642,19 +654,25 @@
                 const avail = players.filter(p => !draftedIds.has(p.id));
                 if (!avail.length) return;
 
-                const looseness = overallPick / totalPicks;                // 0 → 1
-                const poolSize = Math.min(
-                    avail.length,
-                    Math.max(5, Math.floor(5 + looseness * 40))   // 5-45
+                const round = Math.ceil(overallPick / numTeams);
+                const looseness = (overallPick / totalPicks)            // grows 0→1
+                    + drift / 100 * Math.max(0, round - 5) / rounds; // slider kick-in
+
+                const poolSize = Math.min(avail.length,
+                    Math.max(5, Math.floor(5 + looseness * 45)));  // 5-50
+
+                /* bias weighting -------------------------------------------------- */
+                const teamIdx = currentTeamIdx();
+                const biasObj = teamPersona[teamIdx].bias;
+
+                const weightedPool = avail.slice(0, poolSize).flatMap(p =>
+                    Array(Math.round(10 * (biasObj[p.position] || 1))).fill(p)
                 );
 
-                const expo = 3.0 - 2.5 * looseness;   // 3 early → 0.5 late
-                const r = Math.random();
-                const idx = Math.floor(Math.pow(r, expo) * poolSize);
-
-                const pick = avail[idx];
-                registerPick(currentTeamIdx(), pick);
+                const pick = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+                registerPick(teamIdx, pick);
             }
+
 
 
             const advanceToUser = () => {
