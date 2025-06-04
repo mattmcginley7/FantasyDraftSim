@@ -8,7 +8,6 @@
 
     <!-- ───────────── L I G H T  CSS  (no Tailwind build needed) -->
     <style>
-
         :root {
             --indigo: #6366f1;
             --bg: #f9fafb;
@@ -64,15 +63,17 @@
         }
 
         /* tab row */
-        nav.tabs{
-  display:flex;
-  position:sticky;
-  top:56px;                  /* height of your header (adjust if needed) */
-  z-index:45;                /* higher than content, lower than header */
-  background:#fff;
-  border-bottom:1px solid #e5e7eb;
-  font-weight:600;
-}
+        nav.tabs {
+            display: flex;
+            position: sticky;
+            top: 56px;
+            /* height of your header (adjust if needed) */
+            z-index: 45;
+            /* higher than content, lower than header */
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+        }
 
         nav.tabs button {
             flex: 1;
@@ -87,16 +88,17 @@
         }
 
         /* Position filter bar */
-#pos-filters{
-  display:flex;
-  gap:4px;
-  overflow-x:auto;
-  padding:8px;
-  position:sticky;
-  top:96px;                  /* header height + tabs height */
-  z-index:44;
-  background:#fff;
-}
+        #pos-filters {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            padding: 8px;
+            position: sticky;
+            top: 96px;
+            /* header height + tabs height */
+            z-index: 44;
+            background: #fff;
+        }
 
         #pos-filters button {
             padding: 4px 12px;
@@ -228,48 +230,72 @@
             display: none;
         }
 
-        .player-ppg{
-  width:72px;                       /* enough room for “18.9 PPG” */
-  text-align:right;
-  font-weight:600;
-  font-size:12px;
-  font-variant-numeric:tabular-nums;
-  color:var(--muted);
-  flex-shrink:0;                    /* never squeeze smaller */
-}
+        .player-ppg {
+            width: 72px;
+            /* enough room for “18.9 PPG” */
+            text-align: right;
+            font-weight: 600;
+            font-size: 12px;
+            font-variant-numeric: tabular-nums;
+            color: var(--muted);
+            flex-shrink: 0;
+            /* never squeeze smaller */
+        }
 
-/* -- Position badge / row colors -- */
-.pos-qb        { background:#ece9ff; }
-.pos-rb        { background:#e7f7ec; }
-.pos-wr        { background:#eaf4ff; }
-.pos-te        { background:#fff3e8; }
-.pos-flex,
-.pos-superflex { background:#f5f5f5; }
-.pos-dst       { background:#ffecec; }
-.pos-k         { background:#e9faff; }
-.pos-bench     { background:#f9fafb; }
+        /* -- Position badge / row colors -- */
+        .pos-qb {
+            background: #ece9ff;
+        }
 
-/* kill the grid and stack rows vertically */
-.roster-stack{
-  display:flex;
-  flex-direction:column;
-  gap:6px;            /* vertical spacing between rows */
-}
+        .pos-rb {
+            background: #e7f7ec;
+        }
 
-/* keep the same colored rows you added earlier */
-.roster-row{
-  padding:6px 8px;
-  border-radius:6px;
-  font-size:13px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 1px 2px rgba(0,0,0,.05);
-}
+        .pos-wr {
+            background: #eaf4ff;
+        }
 
-/* ...existing pos-qb, pos-rb, etc. classes remain unchanged ... */
+        .pos-te {
+            background: #fff3e8;
+        }
 
+        .pos-flex,
+        .pos-superflex {
+            background: #f5f5f5;
+        }
 
+        .pos-dst {
+            background: #ffecec;
+        }
+
+        .pos-k {
+            background: #e9faff;
+        }
+
+        .pos-bench {
+            background: #f9fafb;
+        }
+
+        /* kill the grid and stack rows vertically */
+        .roster-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            /* vertical spacing between rows */
+        }
+
+        /* keep the same colored rows you added earlier */
+        .roster-row {
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        /* ...existing pos-qb, pos-rb, etc. classes remain unchanged ... */
     </style>
 </head>
 
@@ -343,7 +369,7 @@
         document.addEventListener('DOMContentLoaded', initDraft);
         async function initDraft() {
 
-             /* ========== ELEMENTS AVAILABLE NOW ========== */
+            /* ========== ELEMENTS AVAILABLE NOW ========== */
             const $queueBar = document.getElementById('queue-bar');
             const $queueTags = document.getElementById('queue-tags');
             const queue = [];
@@ -441,7 +467,7 @@
                     window.location.href = 'index.html';     // same folder as draft.html
                 }
             });
-            
+
 
             /* ========== Position filters ========= */
             const positions = ['all', 'qb', 'rb', 'wr', 'te', 'k', 'dst'];
@@ -617,7 +643,7 @@
 
             /* ========== Helpers ========= */
             const totalPicks = rounds * numTeams;
-            
+
             function fits(slot, pos) {
                 if (slot === pos) return true;
                 if (slot === 'FLEX') return ['RB', 'WR', 'TE'].includes(pos);
@@ -650,42 +676,100 @@
                 overallPick++;
             };
 
+            function teamHasPos(teamIdx, pos) {
+                return rosters[teamIdx].starters.concat(rosters[teamIdx].bench)
+                    .some(p => p && p.position === pos);
+            }
+            function bestAvailable(position) {
+                return players.find(p => !draftedIds.has(p.id) &&
+                    p.position === position);
+            }
+
+
             function cpuPick() {
+                const teamIdx = currentTeamIdx();
+                const round = Math.ceil(overallPick / numTeams);
+                const picksLeft = totalPicks - overallPick + 1;
+
+                /* ---- Late-round K/DST logic ----------------------------------- */
+                const needK = !teamHasPos(teamIdx, 'K');
+                const needDST = !teamHasPos(teamIdx, 'DST');
+                const needs = [needK && 'K', needDST && 'DST'].filter(Boolean);
+
+                /* If the CPU only has as many picks left as it has needs,
+                   FORCE it to fill one of them now.  */
+                if (needs.length && needs.length >= picksLeft) {
+                    const pos = needs[0];               // pick K first, then DST (or vice-versa)
+                    const pick = bestAvailable(pos);
+                    if (pick) { registerPick(teamIdx, pick); return; }
+                    // fall through if somehow no player found
+                }
+
+                /* ---- Normal personality / looseness algorithm ----------------- */
                 const avail = players.filter(p => !draftedIds.has(p.id));
                 if (!avail.length) return;
 
-                const round = Math.ceil(overallPick / numTeams);
-                const looseness = (overallPick / totalPicks)            // grows 0→1
-                    + drift / 100 * Math.max(0, round - 5) / rounds; // slider kick-in
+                const looseness = (overallPick / totalPicks) +
+                    drift / 100 * Math.max(0, round - 5) / rounds;
 
                 const poolSize = Math.min(avail.length,
-                    Math.max(5, Math.floor(5 + looseness * 45)));  // 5-50
+                    Math.max(5, Math.floor(5 + looseness * 45)));
 
-                /* bias weighting -------------------------------------------------- */
-                const teamIdx = currentTeamIdx();
                 const biasObj = teamPersona[teamIdx].bias;
+                const weighted = avail.slice(0, poolSize).flatMap(p =>
+                    Array(Math.round(10 * (biasObj[p.position] || 1))).fill(p));
 
-                const weightedPool = avail.slice(0, poolSize).flatMap(p =>
-                    Array(Math.round(10 * (biasObj[p.position] || 1))).fill(p)
-                );
-
-                const pick = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+                const pick = weighted[Math.floor(Math.random() * weighted.length)];
                 registerPick(teamIdx, pick);
             }
 
 
+            function showReportCard() {
+                /* gather user picks */
+                const myPicks = board.filter(p => p.teamIdx === userSlot);
+                const deltas = myPicks.map(p => {
+                    const pickNumber = p.round > 0 ? p.pickInRound + (p.round - 1) * numTeams
+                        : p.pickInRound;        // 1-indexed
+                    return {
+                        name: p.player.name,
+                        rank: p.player.rank.overall,
+                        pick: pickNumber,
+                        diff: pickNumber - p.player.rank.overall   // + = good value
+                    };
+                });
 
-            const advanceToUser = () => {
-                while (overallPick <= totalPicks && currentTeamIdx() !== userSlot) cpuPick();
-                updateClock();
-            };
+                /* grade scale based on avg diff */
+                const avg = deltas.reduce((s, d) => s + d.diff, 0) / deltas.length;
+                const grade = avg >= 15 ? 'A' : avg >= 8 ? 'B' : avg >= 0 ? 'C' : avg >= -8 ? 'D' : 'F';
+
+                /* populate modal */
+                document.getElementById('grade-letter').textContent = grade;
+                document.getElementById('grade-summary').textContent =
+                    `Average value: ${avg.toFixed(1)} picks ${avg >= 0 ? 'ahead of' : 'behind'} ADP`;
+
+                const best = [...deltas].sort((a, b) => b.diff - a.diff).slice(0, 3);
+                const worst = [...deltas].sort((a, b) => a.diff - b.diff).slice(0, 3);
+
+                document.getElementById('best-values').innerHTML =
+                    best.map(d => `<li>${d.name} ( got @ ${d.pick}, ranked ${d.rank}, +${d.diff})</li>`).join('');
+
+                document.getElementById('worst-values').innerHTML =
+                    worst.map(d => `<li>${d.name} ( got @ ${d.pick}, ranked ${d.rank}, ${d.diff})</li>`).join('');
+
+                document.getElementById('report-card').style.display = 'flex';
+            }
+
             function updateClock() {
                 const r = Math.ceil(overallPick / numTeams);
                 const pr = ((overallPick - 1) % numTeams) + 1;
                 $clockPick.textContent = `${r}.${String(pr).padStart(2, '0')}`;
                 $clockOvrl.textContent = overallPick > totalPicks ? totalPicks : overallPick;
-                if (overallPick > totalPicks) $clockTitle.textContent = 'Draft complete!';
+                if (overallPick > totalPicks) {
+                    $clockTitle.textContent = 'Draft complete!';
+                    showReportCard();
+                }
             }
+
 
             /* ========== User action ========= */
             function userDraft(player, row, btn) {
@@ -760,6 +844,25 @@
 
         }
     </script>
+    <div id="report-card" style="display:none;position:fixed;inset:0;
+        background:rgba(0,0,0,.55);z-index:100;justify-content:center;align-items:center;">
+        <div style="background:#fff;width:90%;max-width:420px;
+              border-radius:10px;padding:20px;text-align:center">
+            <h2 style="margin-top:0">Draft Report Card</h2>
+            <div id="grade-letter" style="font-size:60px;font-weight:700"></div>
+            <p id="grade-summary"></p>
+            <hr>
+            <h3 style="margin:8px 0 4px">Best Values</h3>
+            <ul id="best-values" style="padding-left:16px;text-align:left;font-size:13px"></ul>
+            <h3 style="margin:8px 0 4px">Biggest Reaches</h3>
+            <ul id="worst-values" style="padding-left:16px;text-align:left;font-size:13px"></ul>
+            <button onclick="location.reload()" style="margin-top:12px;padding:6px 16px;background:#6366f1;
+                   color:#fff;border:none;border-radius:6px;font-weight:600">
+                Draft Again
+            </button>
+        </div>
+    </div>
+
 </body>
 
 </html>
