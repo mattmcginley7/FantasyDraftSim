@@ -723,6 +723,13 @@
                 registerPick(teamIdx, pick);
             }
 
+            // Skip CPU selections until it's the user's turn
+            function advanceToUser() {
+                while (overallPick <= totalPicks && currentTeamIdx() !== userSlot) {
+                    cpuPick();
+                }
+            }
+
 
             function showReportCard() {
                 /* gather user picks */
@@ -770,16 +777,6 @@
                 }
             }
 
-
-            /* ========== User action ========= */
-            function userDraft(player, row, btn) {
-                if (draftedIds.has(player.id)) return;
-                registerPick(userSlot, player);
-                row.classList.add('drafted');
-                btn.disabled = true;
-                renderBoard(); renderRoster(); updateClock();
-                if (overallPick <= totalPicks) { advanceToUser(); renderPlayerList(); }
-            }
 
             /* ========== Kick‑off ========= */
             /* ────────────────────────────── Kick‑off & engine */
