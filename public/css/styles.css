@@ -48,6 +48,12 @@ select {
     border-radius: 4px;
 }
 
+/* Ensure range sliders span the full track without extra padding */
+input[type=range] {
+    padding: 0;
+    border: none;
+}
+
 button {
     display: block;
     width: 100%;
