@@ -691,10 +691,17 @@
                 const round = Math.ceil(overallPick / numTeams);
                 const picksLeft = totalPicks - overallPick + 1;
 
-                /* ---- Late-round K/DST logic ----------------------------------- */
+                /* ---- Late-round K/DST logic --------------------------------- */
                 const needK = !teamHasPos(teamIdx, 'K');
                 const needDST = !teamHasPos(teamIdx, 'DST');
                 const needs = [needK && 'K', needDST && 'DST'].filter(Boolean);
+
+                // Force K or DST in the final 3 rounds if still missing
+                if (needs.length && round >= rounds - 2) {
+                    const pos = needK ? 'K' : 'DST';
+                    const pick = bestAvailable(pos);
+                    if (pick) { registerPick(teamIdx, pick); return; }
+                }
 
                 /* If the CPU only has as many picks left as it has needs,
                    FORCE it to fill one of them now.  */
@@ -705,15 +712,23 @@
                     // fall through if somehow no player found
                 }
 
-                /* ---- Normal personality / looseness algorithm ----------------- */
+                /* ---- Normal personality / looseness algorithm --------------- */
                 const avail = players.filter(p => !draftedIds.has(p.id));
                 if (!avail.length) return;
 
-                const looseness = (overallPick / totalPicks) +
+                let looseness = (overallPick / totalPicks) +
                     drift / 100 * Math.max(0, round - 5) / rounds;
 
-                const poolSize = Math.min(avail.length,
-                    Math.max(5, Math.floor(5 + looseness * 45)));
+                if (round <= 3) {
+                    const strictFactor = (100 - drift) / 100;   // 0 if chaotic
+                    const earlyScale = (4 - round) / 3;         // r1 > r2 > r3
+                    looseness *= 1 - strictFactor * earlyScale; // tighten pool
+                }
+
+                const poolSize = Math.min(
+                    avail.length,
+                    Math.max(5, Math.floor(5 + looseness * 45))
+                );
 
                 const biasObj = teamPersona[teamIdx].bias;
                 const weighted = avail.slice(0, poolSize).flatMap(p =>
