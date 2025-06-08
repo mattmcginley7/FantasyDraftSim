@@ -50,27 +50,39 @@
             font-size: 12px;
         }
 
-        /* search icon 24×24  */
-        .search-btn {
-            width: 24px;
-            height: 24px;
-            background: none;
-            border: none;
-            color: #fff;
-            margin-left: auto;
+        /* layout tweaks for header */
+        header {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
         }
-        .search-btn:hover {
-            color: #d1d5db;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: #cbd5e1;
+            border-radius: 50%;
+        }
+        .restart-btn {
+            padding: 4px 10px;
+            border: 1px solid #94a3b8;
+            border-radius: 6px;
+            background: #fff;
+            color: #0f172a;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
         }
 
         /* tab row */
         nav.tabs {
             display: flex;
             position: sticky;
-            top: 56px;
+            top: 72px;
             /* height of your header (adjust if needed) */
             z-index: 45;
             /* higher than content, lower than header */
@@ -104,7 +116,7 @@
             overflow-x: auto;
             padding: 8px;
             position: sticky;
-            top: 96px;
+            top: 112px;
             /* header height + tabs height */
             z-index: 44;
             background: #fff;
@@ -351,22 +363,14 @@
 
     <!-- ───── Header: “You’re on the clock” strip -->
     <header>
-        <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:40px;height:40px;background:#cbd5e1;border-radius:50%"></div>
+        <div class="header-left">
+            <div class="logo-circle"></div>
             <div>
                 <h1 id="clock-title">Your Pick!</h1>
-                <p id="clock-sub">Pick <span id="clock-pick">1.01</span> (<span id="clock-overall">1</span> Overall)</p>
+                <p id="clock-sub">Pick&nbsp;<span id="clock-pick">1.01</span>&nbsp;(<span id="clock-overall">1</span>&nbsp;Overall)</p>
             </div>
-            <button aria-label="Search" class="search-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="M21 21l-4.35-4.35" stroke-linecap="round" />
-                </svg>
-            </button>
         </div>
-        <button id="restart-btn" style="margin-left:auto;padding:4px 10px;border:1px solid #94a3b8;border-radius:6px;background:#fff;color:#0f172a;font-size:12px;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.05);">
-            Restart
-        </button>
+        <button id="restart-btn" class="restart-btn">Restart</button>
 
     </header>
 
