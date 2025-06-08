@@ -767,14 +767,22 @@
                     };
                 });
 
-                /* grade scale based on avg diff */
-                const avg = deltas.reduce((s, d) => s + d.diff, 0) / deltas.length;
+                /* grade scale based on weighted avg diff */
+                const weightForRound = r => r <= 5 ? 3 : r <= 10 ? 2 : 1;
+                const totals = deltas.reduce((obj, d) => {
+                    const round = Math.ceil(d.pick / numTeams);
+                    const w = weightForRound(round);
+                    obj.weight += w;
+                    obj.score += d.diff * w;
+                    return obj;
+                }, { weight: 0, score: 0 });
+                const avg = totals.score / totals.weight;
                 const grade = avg >= 15 ? 'A' : avg >= 8 ? 'B' : avg >= 0 ? 'C' : avg >= -8 ? 'D' : 'F';
 
                 /* populate modal */
                 document.getElementById('grade-letter').textContent = grade;
                 document.getElementById('grade-summary').textContent =
-                    `Average value: ${avg.toFixed(1)} picks ${avg >= 0 ? 'ahead of' : 'behind'} ADP`;
+                    `Weighted value: ${avg.toFixed(1)} picks ${avg >= 0 ? 'ahead of' : 'behind'} ADP`;
 
                 const best = [...deltas].sort((a, b) => b.diff - a.diff).slice(0, 3);
                 const worst = [...deltas].sort((a, b) => a.diff - b.diff).slice(0, 3);
