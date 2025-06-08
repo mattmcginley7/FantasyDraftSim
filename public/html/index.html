@@ -10,22 +10,23 @@
 </head>
 
 <body>
-    <header>
-        <h1 class="text-2xl font-bold text-center">NFL Fantasy Football Draft Simulator</h1>
+    <header style="background:linear-gradient(90deg,#1e3a8a,#9333ea);color:#fff;text-align:center;padding:20px 0;">
+        <h1 style="margin:0;font-size:1.75rem">NFL Fantasy Football Draft Simulator</h1>
+        <p style="margin:4px 0 0;font-size:0.9rem">Set up your league and start drafting in seconds</p>
     </header>
 
     <main>
         <!-- ───────────────────────────────────────────────────────── Landing copy -->
-        <section id="welcome" class="mb-6">
-            <h2 class="text-xl font-semibold">Draft Settings</h2>
-            <p class="mb-4">Choose your league’s rules below, then hit <strong>Start Draft</strong> to jump right in.
+        <section id="welcome" style="margin-bottom:24px;">
+            <h2 style="font-size:1.25rem;font-weight:600;">Draft Settings</h2>
+            <p style="margin-bottom:16px;">Choose your league’s rules below, then hit <strong>Start Draft</strong> to jump right in.
                 You can always come back and tweak these later.</p>
         </section>
 
         <!-- ───────────────────────────────────────────────────────── Draft form -->
-        <form id="draft-settings-form" class="space-y-6">
+        <form id="draft-settings-form" style="display:flex;flex-direction:column;gap:1.5rem;">
             <!-- Basic league setup -->
-            <div class="grid md:grid-cols-2 gap-4">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
                 <!-- Number of teams -->
                 <label>Number&nbsp;of&nbsp;Teams
                     <select id="num-teams" name="numTeams" required>
@@ -61,9 +62,9 @@
             </div>
 
             <!-- Roster composition -->
-            <fieldset class="border p-4 rounded">
-                <legend class="font-semibold px-2">Starting&nbsp;Lineup</legend>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <fieldset style="border:1px solid #ddd;padding:16px;border-radius:4px;">
+                <legend style="font-weight:600;padding:0 4px;">Starting&nbsp;Lineup</legend>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:15px;">
                     <label>QB <input type="number" name="qb" min="1" max="2" value="1" required></label>
                     <label>RB <input type="number" name="rb" min="1" max="4" value="2" required></label>
                     <label>WR <input type="number" name="wr" min="1" max="5" value="3" required></label>
@@ -76,9 +77,9 @@
             </fieldset>
 
             <!-- Draft behaviour -->
-            <fieldset class="border p-4 rounded">
-                <legend class="font-semibold px-2">Draft&nbsp;Behaviour</legend>
-                <div class="grid md:grid-cols-2 gap-4">
+            <fieldset style="border:1px solid #ddd;padding:16px;border-radius:4px;">
+                <legend style="font-weight:600;padding:0 4px;">Draft&nbsp;Behaviour</legend>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
                     <label>Draft&nbsp;Order
                         <select id="draft-order" name="draftOrder" required>
                             <option value="snake" selected>Snake</option>
@@ -90,17 +91,17 @@
                         ADP Drift <span id="drift-value" style="font-weight:600">30</span>
                         <input type="range" id="adp-drift" name="adpDrift" min="0" max="100" step="10" value="30"
                             style="width:100%;margin-top:4px">
-                        <small class="block text-gray-600">Controls how much CPU picks deviate from Average Draft Position. 0 = strict ADP, 100 = totally random.</small>
+                        <small style="display:block;color:#666;font-size:0.85rem;">Controls how much CPU picks deviate from Average Draft Position. 0 = strict ADP, 100 = totally random.</small>
                     </label>
                 </div>
             </fieldset>
 
             <!-- Submit -->
-            <button type="submit" class="mt-2">Start&nbsp;Draft</button>
+            <button type="submit" style="margin-top:8px;">Start&nbsp;Draft</button>
         </form>
     </main>
 
-    <footer class="mt-10 text-center text-sm text-gray-500">
+    <footer style="margin-top:40px;text-align:center;font-size:0.875rem;color:#666;">
         &copy; 2025 NFL&nbsp;Fantasy&nbsp;Draft Simulator
     </footer>
 
