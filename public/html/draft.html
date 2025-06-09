@@ -767,7 +767,11 @@
                 if (!avail.length) return;
 
                 /* force pick if best available has fallen too far */
-                const slipLimit = Math.max(5, drift * 2); // tighter with lower drift
+                let slipLimit = Math.max(5, drift * 2); // tighter with lower drift
+                if (round <= 3) {
+                    const earlyLimits = { 1: 10, 2: 12, 3: 18 };
+                    slipLimit = Math.min(slipLimit, earlyLimits[round]);
+                }
                 if (overallPick - avail[0].rank.overall >= slipLimit) {
                     registerPick(teamIdx, avail[0]);
                     return;
